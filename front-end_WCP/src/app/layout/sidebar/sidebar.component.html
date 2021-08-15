@@ -1,0 +1,66 @@
+<div class="aside-inner">
+  <nav class="sidebar" sidebar-anyclick-close="" [class.show-scrollbar]="settings.getLayoutSetting('asideScrollbar')">
+    <ul class="sidebar-nav">
+      <li class="has-user-block">
+        <app-userblock></app-userblock>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a href [routerLink]="'/app/home'" [attr.route]="'/app/home'" title="Accueil">
+          <em class="icon-home"></em>
+          <span>Accueil</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a href *ngIf="authenticationService.isUserLoggedIn()" [routerLink]="'/app/nouveau_projet'"
+           [attr.route]="'/app/nouveau_projet'" title="Idée innovante">
+          <em class="icon-plus"></em>
+          <span>Idée innovante</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a href *ngIf="authenticationService.isUserLoggedIn()" [routerLink]="'/app/collaboration'"
+           [attr.route]="'/app/collaboration'" title="Networking">
+          <em class="icon-plus"></em>
+          <span>Networking</span>
+        </a>
+      </li>
+      <!--li [routerLinkActive]="['active']">
+        <a href *ngIf="authenticationService.isUserLoggedIn()" [routerLink]="'/app/demandes'"
+           [attr.route]="'/app/demandes'" title="Demandes de projets">
+          <em class="icon-grid"></em>
+          <span>Demandes</span>
+        </a>
+      </li-->
+      <li [routerLinkActive]="['active']">
+        <a href *ngIf="authenticationService.isUserLoggedIn()" [routerLink]="'/app/membres'"
+           [attr.route]="'/app/membres'" title="Membres">
+          <em class="icon-people"></em>
+          <span>Membres</span>
+        </a>
+      </li>
+
+      <li [routerLinkActive]="['active']">
+        <a href *ngIf="!authenticationService.isUserLoggedIn()" [routerLink]="'/app/login'" [attr.route]="'/app/login'"
+           title="Se connecter">
+          <em class="fas fa-sign-in-alt"></em>
+          <span>Se connecter</span>
+        </a>
+      </li>
+
+      <li [routerLinkActive]="['active']">
+        <a href *ngIf="!authenticationService.isUserLoggedIn()" [routerLink]="'/app/inscription'"
+           [attr.route]="'/app/inscription'" title="Rejoignez-nous">
+          <em class="icon-emotsmile"></em>
+          <span>Rejoignez-nous</span>
+        </a>
+      </li>
+
+      <li>
+        <a href *ngIf="authenticationService.isUserLoggedIn()" (click)="authenticationService.logOut()">
+          <em class="fas fa-sign-out-alt"></em>
+          <span>Se déconnecter</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

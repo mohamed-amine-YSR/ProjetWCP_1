@@ -1,0 +1,358 @@
+<!--ng-container *ngIf="projet; else loading"-->
+<ng-container *ngIf="true; else loading">
+  <div class="content-heading">Mise en place d'un outil de suivi de la conformité du département Etudes et projrt au système de management de la qualité
+    <div class="ml-auto">
+      <div class="btn-group" dropdown>
+        <button class="btn btn-link" dropdownToggle>
+          <em class="fa fa-ellipsis-v fa-lg"></em>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right-forced animated fadeInLeft" role="menu">
+          <a class="dropdown-item">
+            <em class="fa-fw fas fa-users mr-2"></em>
+            <span>Gérer les membres</span>
+          </a>
+          <a class="dropdown-item">
+            <em class="fa-fw fas fa-layer-group mr-2"></em>
+            <span>Gérer les phases</span>
+          </a>
+          <a class="dropdown-item">
+            <em class="fa-fw fas fa-lock mr-2"></em>
+            <span>Mettre le projet en privé</span>
+          </a>
+          <a class="dropdown-item">
+            <em class="fa-fw fas fa-pause-circle mr-2"></em>
+            <span>Mettre le projet en pause</span>
+          </a>
+          <a class="dropdown-item">
+            <em class="fa-fw fas fa-stop mr-2"></em>
+            <span>Cloturer le projet</span>
+          </a>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card card-default">
+        <div class="card-header text-green text-bold">
+          <h4>Informations générales</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 text-bold">Problématique associée</div>
+            <a href="">Cliquez-ici</a>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 text-bold">Discipline</div>
+            <!--div class="col-lg-8">{{projet.discipline.name}}</div-->
+            <div class="col-lg-8">Technologies d'informations</div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-lg-4 text-bold">Compétences requises</div>
+            <div class="col-lg-8">
+              <ul class="list-inline m-0">
+                <!--li class="list-inline-item" *ngFor="let s of projet.skills"-->
+                <li class="list-inline-item" >
+                  <div class="badge bg-gray p-1">Systèmes d'informations</div>
+                </li>
+                <li class="list-inline-item" >
+                  <div class="badge bg-gray p-1">Architectures distribuées</div>
+                </li>
+                <li class="list-inline-item" >
+                  <div class="badge bg-gray p-1">Base de données NoSQL</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-lg-4 text-bold">Période de réalisation</div>
+            <!--div class="col-lg-8">
+              Depuis {{projet.dateDebut | date: 'dd/MM/yyyy'}} &nbsp;
+              <span *ngIf="projet.dateFin">jusqu'à &nbsp;{{projet.dateFin | date: 'dd/MM/yyyy'}}</span>
+            </div-->
+            <div class="col-lg-8">
+              Depuis 17/09/2020 &nbsp;
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-lg-12 text-bold mb-1">Description</div>
+            <div class="col-lg-12">
+              <div class="card card-default" style="border-color: #37bc9b">
+                <div class="card-body">
+                  <!--div class="note-editor note-editor-margin" [innerHTML]="projet.description"-->
+                  <div class="note-editor note-editor-margin" >
+                    description ...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-default">
+        <div class="card-header text-green text-bold">
+          <div class="row">
+            <div class="mr-2 mt-1 ml-2"><h4>Phases de réalisation</h4></div>
+            <div class="btn-group" dropdown>
+              <!--button class="btn btn-outline-secondary dropdown-toggle" type="button" dropdownToggle aria-haspopup="true" aria-expanded="false">
+                {{selectedPhase ? selectedPhase.titre : 'Choisir une phase'}}
+              </button-->
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" dropdownToggle aria-haspopup="true" aria-expanded="false">
+                Phase 2
+              </button>
+              <div *dropdownMenu class="dropdown-menu bg-gray">
+                <!--a class="dropdown-item" href="#" *ngFor="let ph of projet.phases" (click)="selectedPhase = ph">{{ph.titre}}</a-->
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-body">
+          <!--div *ngIf="selectedPhase"-->
+            <div class="row">
+              <div class="col-lg-4 text-bold">Période de réalisation</div>
+              <div class="col-lg-8">
+                Depuis 20/09/2020
+                <!--span *ngIf="selectedPhase.dateFin">jusqu'à &nbsp;{{selectedPhase.dateFin | date: 'dd/MM/yyyy'}}</span-->
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-lg-12 text-bold mb-1">Description</div>
+              <div class="col-lg-12">
+                <div class="card card-default border-info">
+                  <div class="card-body">
+                    <!--div class="note-editor" [innerHTML]="selectedPhase.description"></div-->
+                    <div class="note-editor" >
+                      description phase 2 ...
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-lg-12 text-bold mb-1">Taches</div>
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead class="bg-gray-light">
+                      <tr>
+                        <th><strong>Tache</strong></th>
+                        <th><strong>Date de remise</strong></th>
+                        <th><strong>Membre</strong></th>
+                        <th class="text-center"><strong>Statut</strong></th>
+                        <th><strong>Livrable</strong></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!--tr *ngFor="let t of selectedPhase.taches">
+                        <td>{{t.nomTache}}</td>
+                        <td>{{t.dateRemise ? (t.dateRemise | date: 'dd/MM/yyyy'): '---' }}</td>
+                        <td>
+                          <a href="">{{t.membre.nom}}</a>
+                        </td>
+                        <td class="text-center">
+                          <span class="badge {{t.dateRemise ? 'badge-danger' : 'badge-warning'}}">{{t.dateRemise ? 'Remise en retard' : 'Pas encore remise'}}</span>
+                        </td>
+                      </tr-->
+                      <tr>
+                        <td>Tache 1</td>
+                        <td>21/09/2020</td>
+                        <td>
+                          <a href="">AZIZI Salah</a>
+                        </td>
+                        <td class="text-center">
+                          <span class="badge badge-green">tache remise</span>
+                        </td>
+                        <td>
+                          <a href="">Cliquez-ici</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Tache 2</td>
+                        <td>22/09/2020</td>
+                        <td>
+                          <a href="">SALHI Ayman</a>
+                        </td>
+                        <td class="text-center">
+                          <span class="badge badge-warning">Remise en retard</span>
+                        </td>
+                        <td>
+                          <a href="">Cliquez-ici</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Tache 3</td>
+                        <td>21/09/2020</td>
+                        <td>
+                          <a href="">CHADILI Mouna</a>
+                        </td>
+                        <td class="text-center">
+                          <span class="badge badge-green">Pas encore remise</span>
+                        </td>
+                        <td>
+                          <a href="">Cliquez-ici</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          <!--/div-->
+
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card bg-green">
+        <div class="d-flex">
+          <div class="w-50 bb br px-3">
+            <div class="d-flex align-items-center">
+              <em class="fa-2x icon-people"></em>
+              <div class="ml-auto">
+                <div class="card-body text-right">
+                  <!--h4 class="mt-0">{{projet.countMembres}}</h4-->
+                  <h4 class="mt-0">12</h4>
+                  <p class="mb-0 text-muted text-white">Membres</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-50 bb px-3">
+            <div class="d-flex align-items-center">
+              <em class="fa-2x fas fa-code-branch"></em>
+              <div class="ml-auto">
+                <div class="card-body text-right">
+                  <h4 class="mt-0">2</h4>
+                  <p class="mb-0 text-muted text-white">Projets en accès</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex">
+          <div class="w-50 br px-3">
+            <div class="d-flex align-items-center">
+              <em class="fas fa-tasks fa-2x"></em>
+              <div class="ml-auto">
+                <div class="card-body text-right">
+                  <!--h4 class="mt-0">{{projet.countTaches}}</h4-->
+                  <h4 class="mt-0">13</h4>
+                  <p class="mb-0 text-muted text-white">Taches</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-50 px-3">
+            <div class="d-flex align-items-center">
+              <em class="fa icon-check fa-2x"></em>
+              <div class="ml-auto">
+                <div class="card-body text-right">
+                  <!--h4 class="mt-0">{{projet.countTachesCompleted}}</h4-->
+                  <h4 class="mt-0">10</h4>
+                  <p class="mb-0 text-muted text-white">Taches terminées</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-default">
+        <div class="card-body">
+          <h4 class="text-gray-dark text-bold">Progression</h4>
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="Progression des taches terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="info" value="77.2"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right">
+              <!--div class="text-bold text-muted">{{projet.pourcentageCompleted}}%</div-->
+              <div class="text-bold text-muted">77.2%</div>
+            </div>
+          </div>
+          <hr>
+          <h4 class="text-gray-dark text-bold">Budget</h4>
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="pourcentage du Budget restant">
+                <div class="text-center py-4">
+                  <div class="easypie-chart easypie-chart-lg" easypiechart [options]="pieOptions" [percent]="75">
+                    <span>75%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-default">
+        <div class="card-header text-green text-bold">
+          <h4>Equipe</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12 text-bold">Chef de projet</div>
+            <div class="col-lg-12 text-center">Mr. MAWHOUB Aziz</div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-lg-12 text-bold">Membres</div>
+            <div class="col-lg-12">
+              <ul class="list-inline m-0 text-center">
+                <!--li class="list-inline-item" *ngFor="let m of projet.membres"-->
+                <li class="list-inline-item">
+                  <div class="badge bg-gray m-1 p-2">SALIHI Ayoub</div>
+                </li>
+                <li class="list-inline-item">
+                  <div class="badge bg-gray m-1 p-2">SAMIHI Nada</div>
+                </li>
+                <li class="list-inline-item">
+                  <div class="badge bg-gray m-1 p-2">RAHIM Ayoub</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-lg-12 text-bold">Membres Invités (Externes)</div>
+            <div class="col-lg-12">
+              <ul class="list-inline m-0 text-center">
+                <!--li class="list-inline-item" *ngFor="let m of projet.membres"-->
+                <li class="list-inline-item">
+                  <div class="badge bg-gray m-1 p-2">ABID Ibrahim</div>
+                </li>
+                <li class="list-inline-item">
+                  <div class="badge bg-gray m-1 p-2">CHADILI Mouna</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-container>
+
+<ng-template #loading>
+  <div class="card-body loader-demo d-flex align-items-center justify-content-center">
+    <div class="pacman">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="text-center">
+    <h5 class="text-green">Chargement des données en cours ...</h5>
+  </div>
+</ng-template>

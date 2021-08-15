@@ -1,0 +1,71 @@
+<div class="content-heading">
+  <div>
+    Titre de l'innovation
+    <small>Problématique de départ</small>
+  </div>
+</div>
+<div class="container-fluid">
+  <alert type="green">
+    <em class="fa fa-exclamation-circle fa-lg fa-fw"></em>
+    <span>La première phase pour créer un projet est la phase de <strong>Collaboration</strong>.&nbsp;
+      Veuillez <strong>décrire</strong> votre problématique en remplissant les champs suivants :</span>
+  </alert>
+  <div class="card card-default">
+    <div class="card-body">
+      <form class="form-horizontal">
+        <fieldset>
+          <div class="form-group row mb">
+            <label class="col-md-2 col-form-label font-weight-bold text-green">Titre du projet innovant</label>
+            <div class="col-md-10">
+              <input class="mb-3 form-control" type="text" name="prob-title" placeholder="Titre" [(ngModel)]="projet.probTitle" />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+            <div id="summernote" class="summernote"></div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group row mb">
+            <label class="col-md-2 col-form-label text-green"><strong>Tags </strong>(Compétences requises)</label>
+            <div class="col-md-10">
+              <div class="row m-2 text-purple font-weight-bold"><u>* Veuillez choisir depuis la liste suivante l'ensemble des compétences et des disciplines relatives à votre idée pour faciliter la recherche
+                et la recommandation des membres et des autres projets par la suite. <br>
+                * Vous devez saisir un mot clé, s'il apparaît dans la liste, vous pourrez le sélectionner ou bien cliquez sur le boutton "Entrer", et continuez de la même manière.
+              </u></div>
+              <ngx-select optionValueField="ref" optionTextField="name" noResultsFound="Aucun résulat" autoClearSearch="true" [multiple]="true" [items]="skills"
+                          [ngModelOptions]="{standalone: true}" [(ngModel)]="skl1" placeholder="Taper une compétence, une discipline, une thématique ...">
+              </ngx-select>
+              <div class="row m-2 mt-4 text-purple font-weight-bold"><u>
+                * Si vous ne trouvez pas les élements voulus, veuillez les saisir dans la case suivante (après chaque élément saisi cliquez sur "ENTRER" ).
+              </u></div>
+              <tag-input theme="dark" placeholder="+élement" secondaryPlaceholder="Ajouter une compétence " name="tagName1" [ngModel]="skl2"
+                         (onAdd)="onItemAdded($event)" (onRemove)="onItemRemoved($event)">
+              </tag-input>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="m-3 ml-5" *ngIf="controlInformations()">
+            <div class="row text-danger" *ngFor="let e of errors">{{'* '+e}}</div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group row mt justify-content-center">
+            <button class="btn btn-outline-inverse btn-lg col-md-3 font-weight-bold ml-2 mr-2" (click)="alert()" [disabled] = "(!controlInformations() && !dis) ? null : 'disabled'">
+              Publier Votre proposition
+            </button>
+          </div>
+          <div class="row justify-content-center mt-2" *ngIf="en_cours">
+            <div class="line-scale-pulse-out-rapid">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

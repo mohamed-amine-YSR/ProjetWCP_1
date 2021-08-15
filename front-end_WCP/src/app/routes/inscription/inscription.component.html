@@ -1,0 +1,148 @@
+<div class="wrapper">
+  <div class="block-center mt-4 col-lg-6">
+    <!-- START card-->
+    <div class="card card-flat">
+      <div class="card-header text-center bg-dark">
+        <a href="#">
+          <img class="block-center rounded" src="assets/img/logo.png" alt="Image" />
+        </a>
+      </div>
+      <div class="card-body">
+        <p class="text-center py-2 font-weight-bold text-gray-dark">Veuillez remplir cette formulaire pour demander l'accès à la plateforme</p>
+        <form [formGroup]="valForm" class="form-validate mb-3" (submit)="submitForm($event, valForm.value)">
+          <fieldset>
+            <legend class="text-green">Informations générales</legend>
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="text-muted mb-1">Nom</label>
+                <div class="input-group with-focus">
+                  <input class="form-control border-right-0" type="text" name="nom" placeholder="Nom" autocomplete="off" formControlName="nom" [(ngModel)]="user.nom"/>
+                  <div class="input-group-append">
+                  <span class="input-group-text text-muted bg-transparent border-left-0">
+                      <em class="fa fa-user"></em>
+                  </span>
+                  </div>
+                </div>
+                <div class="text-danger" *ngIf="valForm.controls['nom'].hasError('required') && (valForm.controls['nom'].dirty || valForm.controls['nom'].touched)">Ce champ est obligatoire </div>
+              </div>
+              <div class="col-lg-6">
+                <label class="text-muted mb-1">Prénom</label>
+                <div class="input-group with-focus">
+                  <input class="form-control border-right-0" type="text" name="prenom" placeholder="Prenom" autocomplete="off" formControlName="prenom" [(ngModel)]="user.prenom"/>
+                  <div class="input-group-append">
+                  <span class="input-group-text text-muted bg-transparent border-left-0">
+                      <em class="fa fa-user"></em>
+                  </span>
+                  </div>
+                </div>
+                <div class="text-danger" *ngIf="valForm.controls['prenom'].hasError('required') && (valForm.controls['prenom'].dirty || valForm.controls['prenom'].touched)">Ce champ est obligatoire </div>
+              </div>
+            </div>
+            <div class="form-group mt-2 row">
+              <div class="col-lg-9">
+                <label class="text-muted mb-1">Adresse Email</label>
+                <div class="input-group with-focus">
+                  <input class="form-control border-right-0" type="email" name="email" placeholder="Email" autocomplete="off" formControlName="email" [(ngModel)]="user.email"/>
+                  <div class="input-group-append">
+                <span class="input-group-text text-muted bg-transparent border-left-0">
+                    <em class="fa fa-envelope"></em>
+                </span>
+                  </div>
+                </div>
+                <div class="text-danger" *ngIf="valForm.controls['email'].hasError('required') && (valForm.controls['email'].dirty || valForm.controls['email'].touched)">Ce champ est obligatoire </div>
+                <div class="text-danger" *ngIf="valForm.controls['email'].hasError('email') && (valForm.controls['email'].dirty || valForm.controls['email'].touched)">Vous devez saisir une adresse émail valide</div>
+              </div>
+              <div class="col-lg-3">
+                <label class="text-muted mb-1">Genre</label>
+                <div class="ml-auto d-flex mt-1">
+                  <span class="font-weight-bold mr-2" tooltip="Homme">Mr</span>
+                  <label class="switch switch-lg m-0 mr-2">
+                    <input type="radio" [value]="'m'" [(ngModel)]="user.genre" [ngModelOptions]="{standalone: true}"/>
+                    <span></span>
+                  </label>
+                  <label class="switch switch-lg m-0">
+                    <input type="radio" [value]="'f'" [(ngModel)]="user.genre" [ngModelOptions]="{standalone: true}"/>
+                    <span></span>
+                  </label>
+                  <span class="font-weight-bold ml-2" tooltip="Femme">Mme</span>
+                </div>
+              </div>
+              </div>
+            <div formGroupName="passwordGroup" class="row">
+              <div class="form-group col-lg-6">
+                <label class="text-muted mb-1">Mot de passe</label>
+                <div class="input-group with-focus">
+                  <input class="form-control border-right-0" id="id-password" type="password" name="password" placeholder="mot de passe" formControlName="password" [(ngModel)]="user.password" [formControl]="valForm.get('passwordGroup.password')" />
+                  <div class="input-group-append">
+                                    <span class="input-group-text text-muted bg-transparent border-left-0">
+                                        <em class="fa fa-lock"></em>
+                                    </span>
+                  </div>
+                </div>
+                <div class="text-danger" *ngIf="valForm.get('passwordGroup.password').hasError('required') && (valForm.get('passwordGroup.password').dirty || valForm.get('passwordGroup.password').touched)">Ce champ est obligatoire</div>
+                <div class="text-danger" *ngIf="valForm.get('passwordGroup.password').hasError('pattern') && (valForm.get('passwordGroup.password').dirty || valForm.get('passwordGroup.password').touched)">Vous devez saisir 6 caractères au minimum (uniquement des lettres et des chiffres)</div>
+              </div>
+              <div class="form-group col-lg-6">
+                <label class="text-muted mb-1">Confirmation du mot de passe</label>
+                <div class="input-group with-focus">
+                  <input class="form-control border-right-0" type="password" name="confirmPassword"  placeholder="confirmation du mot de passe" formControlName="confirmPassword" [formControl]="valForm.get('passwordGroup.confirmPassword')" />
+                  <div class="input-group-append">
+                                    <span class="input-group-text text-muted bg-transparent border-left-0">
+                                        <em class="fa fa-lock"></em>
+                                    </span>
+                  </div>
+                </div>
+                <div class="text-danger" *ngIf="valForm.get('passwordGroup.confirmPassword').hasError('required') && (valForm.get('passwordGroup.confirmPassword').dirty || valForm.get('passwordGroup.confirmPassword').touched)">Ce champ est obligatoire</div>
+                <div class="text-danger" *ngIf="valForm.get('passwordGroup.confirmPassword').hasError('equalTo')&& (valForm.get('passwordGroup.confirmPassword').dirty || valForm.get('passwordGroup.confirmPassword').touched)">Les 2 mots de passe sont différents</div>
+              </div>
+            </div>
+            <div class="form-group mt-2 row">
+              <div class="col-lg-12">
+                <label class="text-muted mb-1">Centre attaché (école, faculté, centre de recherche, ...)</label>
+                <div class="input-group with-focus">
+                  <input class="form-control border-right-0" type="text" name="centre" placeholder="Centre attaché"  formControlName="centre" [(ngModel)]="user.centre" autocomplete="off" />
+                  <div class="input-group-append">
+                  <span class="input-group-text text-muted bg-transparent border-left-0">
+                      <em class="fa fa-school"></em>
+                  </span>
+                  </div>
+                </div>
+                <div class="text-danger" *ngIf="valForm.controls['centre'].hasError('required') && (valForm.controls['centre'].dirty || valForm.controls['centre'].touched)">Ce champ est obligatoire </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend class="text-green">Compétences</legend>
+            <div class="col-lg-12">
+              <div class="row m-2 text-purple font-weight-bold"><u>* Veuillez choisir depuis la liste suivante l'ensemble des compétences et des disciplines relatives à votre profil pour faciliter la recherche
+                et la recommandation. <br>
+                * Vous devez saisir un mot clé, s'il apparaît dans la liste, vous pourrez le sélectionner ou bien cliquez sur le boutton "Entrer", et continuez de la même manière.
+              </u></div>
+              <ngx-select optionValueField="ref" optionTextField="name" noResultsFound="Aucun résulat" autoClearSearch="true" [multiple]="true" [items]="skills"
+                          [ngModelOptions]="{standalone: true}" [(ngModel)]="skl1" placeholder="Taper une compétence, une discipline, une thématique ...">
+              </ngx-select>
+              <div class="row m-2 mt-4 text-purple font-weight-bold"><u>
+                * Si vous ne trouvez pas les élements voulus, veuillez les saisir dans la case suivante (après chaque élément saisi cliquez sur "ENTRER" ).
+              </u></div>
+              <tag-input theme="dark" placeholder="+élement" secondaryPlaceholder="Ajouter une compétence " name="tagName1" [ngModel]="skl2"  [ngModelOptions]="{standalone: true}"
+                         (onAdd)="onItemAdded($event)" (onRemove)="onItemRemoved($event)">
+              </tag-input>
+            </div>
+          </fieldset>
+          <button class="btn btn-block btn-lg btn-green mt-3" type="submit">Demander l'accès à la plateforme</button>
+        </form>
+        <div class="row justify-content-center mt-2" *ngIf="en_cours">
+          <div class="line-scale-pulse-out-rapid">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <p class="pt-3 text-center">Vous avez déjà un compte ?</p>
+        <a class="btn btn-block btn-secondary" [routerLink]="'/app/login'">Se connecter</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+import { NgModule, Optional, SkipSelf } from '@angular/core';
+
+import { SettingsService } from './settings/settings.service';
+import { ThemesService } from './themes/themes.service';
+import { TranslatorService } from './translator/translator.service';
+import { MenuService } from './menu/menu.service';
+
+import { throwIfAlreadyLoaded } from './module-import-guard';
+import {ProjetService} from './service/projet.service';
+import {UserService} from './service/user.service';
+import {WsConfig} from './service/ws.config';
+import {CentreService} from './service/centre.service';
+
+@NgModule({
+    imports: [
+    ],
+    providers: [
+        SettingsService,
+        ThemesService,
+        TranslatorService,
+        MenuService,
+        ProjetService,
+        UserService,
+        CentreService,
+        WsConfig
+    ],
+    declarations: [
+    ],
+    exports: [
+    ]
+})
+export class CoreModule {
+    constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
+        throwIfAlreadyLoaded(parentModule, 'CoreModule');
+    }
+}

@@ -1,0 +1,60 @@
+<div class="wrapper">
+  <div class="block-center mt-4 wd-xxl">
+    <!-- START card-->
+    <div class="card card-flat">
+      <div class="card-header text-center bg-dark">
+        <a href="#">
+          <img class="block-center" src="assets/img/logo.png" alt="Image" />
+        </a>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="valForm" class="form-validate mb-3" (submit)="submitForm($event, valForm.value)">
+          <div class="form-group">
+            <div class="input-group with-focus">
+              <input class="form-control border-right-0" type="email" placeholder="Email" formControlName="email" [(ngModel)]="credentials.email"/>
+              <div class="input-group-append">
+                  <span class="input-group-text text-muted bg-transparent border-left-0">
+                      <em class="fa fa-envelope"></em>
+                  </span>
+              </div>
+            </div>
+            <div class="text-danger" *ngIf="valForm.controls['email'].hasError('required') && (valForm.controls['email'].dirty || valForm.controls['email'].touched)">Ce champs est obligatoire</div>
+            <div class="text-danger" *ngIf="valForm.controls['email'].hasError('email') && (valForm.controls['email'].dirty || valForm.controls['email'].touched)">Veuillez saisir un email correct</div>
+          </div>
+          <div class="form-group">
+            <div class="input-group with-focus">
+              <input class="form-control border-right-0" type="password" placeholder="Mot de passe" formControlName="password" [(ngModel)]="credentials.password"/>
+              <div class="input-group-append">
+                  <span class="input-group-text text-muted bg-transparent border-left-0">
+                      <em class="fa fa-lock"></em>
+                  </span>
+              </div>
+            </div>
+            <div class="text-danger" *ngIf="valForm.controls['password'].hasError('required') && (valForm.controls['password'].dirty || valForm.controls['password'].touched)">Ce champs est obligatoire</div>
+          </div>
+          <div class="clearfix">
+            <div class="float-right">
+              <a class="text-muted" [routerLink]="'/pages/recover'">Mot de passe oublié?</a>
+            </div>
+          </div>
+          <button class="btn font-weight-bold btn-block btn-outline-green mt-3" type="submit">Se connecter</button>
+          <div [hidden]="!en_cours">
+            <div class="d-flex align-items-center justify-content-center mt-2" >
+              <div class="ball-pulse-sync">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+          <div class="alert-danger text-center mt-2" *ngIf="errorLogin">
+            Informations incorrectes ou erreur de coté serveur
+          </div>
+          <!-- <div class="alert alert-danger text-center" ></div> -->
+        </form>
+        <p class="pt-3 text-center">Vous n'etes pas un membre?</p>
+        <a class="btn font-weight-bold btn-block btn-secondary" [routerLink]="'/app/inscription'">Rejoignez-nous</a>
+      </div>
+    </div>
+  </div>
+</div>

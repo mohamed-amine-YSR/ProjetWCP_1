@@ -1,0 +1,206 @@
+<div class="content-heading">Problématiques & Collaboration</div>
+<div class="container">
+  <!--div class="row justify-content-center">
+    <pagination class="pagination" (pageChanged)="pageChanged($event)" [itemsPerPage]="nbrProbsParPage" [totalItems]="nbrProbs"
+                [(ngModel)]="currentPage" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" (numPages)="numPages"></pagination>
+  </div-->
+  <div class="card card-default p-5" *ngIf="no_prob">
+    <div class="row justify-content-center">
+      <em class="fa fa-exclamation-triangle fa-7x text-center text-gray"></em>
+    </div>
+    <div class="row mt-5 justify-content-center">
+      <h4 class="text-center">Aucune publication pour l'instant !</h4>
+    </div>
+  </div>
+  <div *ngIf="!no_prob">
+    <div class="card card-default border-primary mb-5">
+      <div class="card-body">
+        recherche, filtre par date ...
+      </div>
+    </div>
+    <div *ngIf="is_error" class="card card-default border-danger m-5 p-5">
+      <div class="row justify-content-center">
+        <em class="fa fa-exclamation-triangle fa-7x text-center" style="color: #F08080"></em>
+      </div>
+      <div class="row mt-5 justify-content-center">
+        <h4 class="text-center">Une erreur est survenue de coté serveur, Veuillez ressayer plus tard !</h4>
+      </div>
+    </div>
+    <div class="card card-default border-info" *ngFor="let p of problemes">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-7">
+            <div class="media">
+              <img class="mr-3 rounded-circle thumb64" [src]="'assets/img/user/'+p.probOwner.genre+'.png'" />
+              <div class="media-body mb-3">
+                <h4 >
+                  <a href="">{{p.probOwner.genre == 'm' ? 'Mr' : 'Mme'}}.&nbsp;{{p.probOwner.nom | uppercase}}&nbsp;{{p.probOwner.prenom}}</a>
+                </h4>
+                Professeur à l'ENSIAS
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="badge bg-green p-1 m-1">problème résolu</div>
+          </div>
+          <div class="col-lg-2 text-muted">
+            <span class="far fa-calendar"></span>&nbsp; {{p.probDate | date: 'dd/MM/yyyy - HH:mm'}}
+          </div>
+        </div>
+        <div class="row m-3 h4">
+          {{p.probTitle}}
+        </div>
+        <div class="row ml-3 mr-3" *ngIf="p.skills">
+          <span class="font-weight-bold text-info m-1">Tags :</span>
+          <span class="badge bg-gray p-1 m-1" *ngFor="let s of p.skills">{{s.name}}</span>
+          <!--span class="badge bg-gray p-1 m-1">Architectures distribuées</span>
+          <span class="badge bg-gray p-1 m-1">Base de données NoSQL</span-->
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+          <button class="btn btn-secondary font-weight-bold btn-oval m-2 border-dark" type="button">
+            <span>{{p.countLikers}}</span>
+            <em class="text-green fa-2x icon-like ml-2 pr-3 border-right"></em>
+            <em class="text-danger fa-2x icon-dislike mr-2 pl-3 border-left"></em>
+            <span>{{p.countDislikers}}</span>
+          </button>
+          <button class="btn btn-secondary btn-oval m-2" type="button">
+            <span class="far fa-comment mr-1"></span>
+            {{p.countComments>0 ? (p.countComments == 1 ? '1 Commentaire' : p.countComments + ' Commentaires') : ' Aucun commentaire pour l\'instant'}}
+          </button>
+          <button class="btn btn-outline-green btn-oval font-weight-bold m-2" type="button" (click)="checkDetails(p.idPrj)">Cliquez-ici pour plus de détails</button>
+        </div>
+      </div>
+    </div>
+    <div class="card card-default mt-3" *ngIf="showMore">
+      <div class="card-body">
+        <div *ngIf="en_cours_p">
+          <div class="row justify-content-center">
+            <div class="pacman">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <h4 class="text-center text-primary mt-2">Chargement des données en cours</h4>
+        </div>
+        <div class="row justify-content-center" *ngIf="!en_cours_p && nbrProbs>0">
+          <button class="btn btn-oval btn-outline-primary" (click)="getAllProbs()">Afficher plus des idées innovantes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--div class="card card-default border-info">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="media">
+            <img class="mr-3 rounded-circle thumb64" src="assets/img/user/03.jpg" />
+            <div class="media-body mb-3">
+              <h4 >
+                <a href="">Mr. MAWHOUB Said</a>
+              </h4>
+              Professeur à l'ENSIAS
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="badge bg-green p-1 m-1">problème résolu</div>
+        </div>
+        <div class="col-lg-2 text-muted">
+          <span class="far fa-calendar"></span>&nbsp; 8/08/2020 , 09:08
+        </div>
+      </div>
+      <div class="row m-3 h4">
+        Mise en place d'un outil de suivi de la conformité du département Etudes & Projets au système de management de la qualité.
+      </div>
+      <div class="row ml-3 mr-3">
+        <span class="font-weight-bold text-info m-1">Tags :</span>
+        <span class="badge bg-gray p-1 m-1">Systèmes d'informations</span>
+        <span class="badge bg-gray p-1 m-1">Architectures distribuées</span>
+        <span class="badge bg-gray p-1 m-1">Base de données NoSQL</span>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <button class="btn btn-secondary btn-oval m-2" type="button"><span class="far fa-comment mr-1"></span>12 commentaires</button>
+        <button class="btn btn-outline-green btn-oval font-weight-bold m-2" type="button" (click)="checkDetails('1')">Cliquez-ici pour plus de détails</button>
+      </div>
+    </div>
+  </div>
+  <div class="card card-default border-info">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="media">
+            <img class="mr-3 rounded-circle thumb64" src="assets/img/user/01.jpg" />
+            <div class="media-body mb-3">
+              <h4>
+                <a href="">Mme. MORCHID Bouchra</a>
+              </h4>
+              Professeur à l'ENSIAS
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="badge bg-warning p-1 m-1">en cours de recherche des solutions</div>
+        </div>
+        <div class="col-lg-2 text-muted">
+          <span class="far fa-calendar"></span>&nbsp; 18/09/2020 , 12:50
+        </div>
+      </div>
+      <div class="row m-3 h4">
+        Mise en place d'un outil d'automatisation du workflow DevOps pour les projets JAVA/JEE
+      </div>
+      <div class="row ml-3 mr-3">
+        <span class="font-weight-bold text-info m-1">Tags :</span>
+        <span class="badge bg-gray p-1 m-1">MDE</span>
+        <span class="badge bg-gray p-1 m-1">DevOps</span>
+        <span class="badge bg-gray p-1 m-1">CI/CD</span>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <button class="btn btn-secondary btn-oval m-2" type="button"><span class="far fa-comment mr-1"></span>3 commentaires</button>
+        <button class="btn btn-outline-green btn-oval font-weight-bold m-2" type="button" (click)="checkDetails('1')">Cliquez-ici pour plus de détails</button>
+      </div>
+    </div>
+  </div>
+  <div class="card card-default border-info">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="media">
+            <img class="mr-3 rounded-circle thumb64" src="assets/img/user/10.jpg" />
+            <div class="media-body mb-3">
+              <h4>
+                <a href="">Mr. AZIZI Salah</a>
+              </h4>
+              Professeur à la FMP
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="badge bg-info p-1 m-1">problème publié récemment</div>
+        </div>
+        <div class="col-lg-2 text-muted">
+          <span class="far fa-calendar"></span>&nbsp; 10/08/2020 , 15:03
+        </div>
+      </div>
+      <div class="row m-3 h4">
+        Le développement embryonnaire
+      </div>
+      <div class="row ml-3 mr-3">
+        <span class="font-weight-bold text-info m-1">Tags :</span>
+        <span class="badge bg-gray p-1 m-1">Biologie</span>
+        <span class="badge bg-gray p-1 m-1">Embryologie</span>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <button class="btn btn-inverse btn-oval m-2" type="button"><span class="far fa-comment mr-1"></span>Aucun commentaire pour l'instant</button>
+        <button class="btn btn-outline-green btn-oval font-weight-bold m-2" type="button" (click)="checkDetails('1')">Cliquez-ici pour plus de détails</button>
+      </div>
+    </div>
+  </div-->
+</div>

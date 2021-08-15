@@ -1,0 +1,294 @@
+<div class="content-heading">Autres informations sur le projet</div>
+
+
+<div class="md-stepper-horizontal">
+  <div class="md-step" [ngClass]="{'active': currentStep == 1}" (click)="currentStep=1">
+    <div class="md-step-circle" [ngClass]="{'bg-success': currentStep > 1, 'bg-info': currentStep<=1}">
+      <span *ngIf="currentStep < 1">1</span>
+      <span *ngIf="currentStep == 1" class="icon-pencil"></span>
+      <span *ngIf="currentStep > 1" class="icon-check"></span>
+    </div>
+    <div class="md-step-title">
+      Collaboration
+    </div>
+    <div class="md-step-bar-left"></div>
+    <div class="md-step-bar-right"></div>
+  </div>
+  <div class="md-step" [ngClass]="{'active': currentStep == 2}" (click)="currentStep=2;">
+    <div class="md-step-circle" [ngClass]="{'bg-success': currentStep > 2, 'bg-info': currentStep<=2}">
+      <span *ngIf="currentStep < 2">2</span>
+      <span *ngIf="currentStep == 2" class="icon-pencil"></span>
+      <span *ngIf="currentStep > 2" class="icon-check"></span>
+    </div>
+    <div class="md-step-title">
+      Recrutement
+    </div>
+    <div class="md-step-bar-left"></div>
+    <div class="md-step-bar-right"></div>
+  </div>
+  <div class="md-step " [ngClass]="{'active': currentStep == 3}"  (click)="currentStep=3">
+    <div class="md-step-circle" [ngClass]="{'bg-success': currentStep > 3, 'bg-info': currentStep<=3}">
+      <span *ngIf="currentStep < 3">3</span>
+      <span *ngIf="currentStep == 3" class="icon-pencil"></span>
+      <span *ngIf="currentStep > 3" class="icon-check"></span>
+    </div>
+    <div class="md-step-title">
+      Informations Supplémentaires
+    </div>
+    <div class="md-step-bar-left"></div>
+    <div class="md-step-bar-right"></div>
+  </div>
+</div>
+<div class="container mt-3">
+  <div class="card card-default">
+    <div class="card-body">
+      <div [ngSwitch]="currentStep">
+        <div *ngSwitchCase="1">
+          <div class="row">
+            <div class="col-lg-10">
+              <div class="media">
+                <img class="mr-3 rounded-circle thumb64" src="assets/img/user/04.jpg" />
+                <div class="media-body mb-3">
+                  <h4>
+                    <a href="">Mr. AZIZI Salah</a>
+                  </h4>
+                  Professeur à la FMP
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 text-muted">
+              <span class="far fa-calendar"></span>&nbsp; 10/08/2020 , 15:03
+            </div>
+          </div>
+          <div class="row m-3 h4">
+            Mise en place d'un outil de suivi de la conformité du département Etudes & Projets au système de management de la qualité.
+          </div>
+          <div class="row ml-3 mr-3">
+            <span class="font-weight-bold text-info m-1">Tags :</span><span class="badge bg-gray p-1 m-1">Biologie</span><span class="badge bg-gray p-1 m-1">Embriologie</span>
+          </div>
+          <hr>
+          <div class="row justify-content-center">
+            <button class="btn btn-inverse btn-oval m-2" type="button"><span class="far fa-comment mr-1"></span>Pas de solution(s) proposée(s) pour l'instant</button>
+            <button class="btn btn-outline-green btn-oval font-weight-bold m-2" type="button" >Cliquez-ici pour plus de détails</button>
+            <button class="btn btn-outline-info btn-oval font-weight-bold m-2" type="button" (click)="currentStep=2">Passer à l'étape suivante</button>
+          </div>
+        </div>
+        <form class="form-horizontal">
+          <div *ngSwitchCase="2">
+            <div class="row">
+              <div class="col-lg-8">
+                <fieldset>
+                  <div class="form-group row mb">
+                    <label class="col-md-4 col-form-label font-weight-bold text-green">Chef de projet</label>
+                    <div class="col-md-8">
+                      <ngx-select [allowClear]="true" [items]="items" (data)="refreshValue($event)" (selected)="selected($event)"
+                                  (removed)="removed($event)" (typed)="typed($event)" placeholder="Aucune personne n'est sélectionné">
+                      </ngx-select>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <div class="form-group row mb">
+                    <label class="col-md-4 col-form-label font-weight-bold text-green">Membres</label>
+                    <div class="col-md-8">
+                      <ngx-select searchPlaceholder="Chercher un membre" noResultsFound="Aucun résulat" [multiple]="true" [items]="items" (data)="refreshValue($event)" (selected)="selected($event)"
+                                  (removed)="removed($event)" (typed)="typed($event)" placeholder="Aucune personne n'est sélectionné">
+                      </ngx-select>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <div class="form-group row mb">
+                    <label class="col-md-4 col-form-label font-weight-bold text-green">Invitation</label>
+                    <div class="col-md-8">
+                      <tag-input theme="dark" placeholder="Inviter un autre membre externe" secondaryPlaceholder="Inviter des membres externes" name="tagName1" [ngModel]="['amine.fadili@gmail.com']"></tag-input>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <div class="form-group row mt justify-content-center">
+                    <button class="btn btn-outline-info btn-oval col-md-3 font-weight-bold ml-2 mr-2" (click)="currentStep=3">Passer à l'étape suivante</button>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-lg-4">
+                <div class="card border-info">
+                  <div class="card-body">
+                    <h4 class="text-green text-center">Demandes d'adhésion</h4>
+                    <hr>
+                    <div class="media mb-2">
+                      <img class="mr-3 rounded-circle thumb32" src="assets/img/user/13.jpg" />
+                      <div class="media-body mt-1">
+                        <h4>
+                          <a href="">Mr. SALIHI Ibrahim</a>
+                        </h4>
+                      </div>
+                    </div>
+                    <div class="media mb-2">
+                      <img class="mr-3 rounded-circle thumb32" src="assets/img/user/07.jpg" />
+                      <div class="media-body mt-1">
+                        <h4>
+                          <a href="">Mme. BENNANI Kawtar</a>
+                        </h4>
+                      </div>
+                    </div>
+                    <div class="media mb-2">
+                      <img class="mr-3 rounded-circle thumb32" src="assets/img/user/11.jpg" />
+                      <div class="media-body mt-1">
+                        <h4>
+                          <a href="">Mr. SARHAN Amine</a>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card border-info">
+                  <div class="card-body">
+                    <h4 class="text-green text-center">Recommandations des membres</h4>
+                    <hr>
+                    <div class="media mb-2">
+                      <img class="mr-3 rounded-circle thumb32" src="assets/img/user/03.jpg" />
+                      <div class="media-body mt-1">
+                        <h4>
+                          <a href="">Mr. MAWHOUB Hicham</a>
+                        </h4>
+                      </div>
+                    </div>
+                    <div class="media mb-2">
+                      <img class="mr-3 rounded-circle thumb32" src="assets/img/user/01.jpg" />
+                      <div class="media-body mt-1">
+                        <h4>
+                          <a href="">Mme. CHADILI Mouna</a>
+                        </h4>
+                      </div>
+                    </div>
+                    <div class="media mb-2">
+                      <img class="mr-3 rounded-circle thumb32" src="assets/img/user/05.jpg" />
+                      <div class="media-body mt-1">
+                        <h4>
+                          <a href="">Mme. FAQIHI Samia</a>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="3">
+            <div class="row">
+              <div class="col-lg-8">
+                <fieldset>
+                  <div class="form-group row mb">
+                    <label class="col-md-4 col-form-label font-weight-bold text-green">Titre du projet</label>
+                    <div class="col-md-8">
+                      <input class="form-control" type="text" name="prob-title" placeholder="Titre"/>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <div class="form-group row mb">
+                    <label class="col-md-4 col-form-label font-weight-bold text-green">Description du projet</label>
+                    <div class="col-md-8">
+                      <textarea rows="5" class="form-control" type="text" name="prob-title" placeholder="Description"></textarea>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <div class="form-group row mb">
+                    <label class="col-md-4 col-form-label font-weight-bold text-green">Financement</label>
+                    <div class="col-md-2 mt-2">
+                      <label class="switch m-0">
+                        <input type="checkbox" checked="checked" />
+                        <span></span>
+                      </label>
+                    </div>
+                    <div class="col-md-6">
+                      <input class="form-control" type="text" name="prob-title" placeholder="Saisir le budget"/>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <div class="form-group row mt justify-content-center">
+                    <button class="btn btn-outline-info btn-oval col-md-3 font-weight-bold ml-2 mr-2" (click)="currentStep=3" (click)="sweetAlert()">Soumettre au jury</button>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-lg-4">
+                <div class="card border-info">
+                  <div class="card-body">
+                    <h4 class="text-green text-center">Recommandations des projets similaires</h4>
+                    <hr>
+                    <div class="media mb-2">
+                      <div class="media-body mt-1">
+                        <h4>
+                          Projet 12
+                        </h4>
+                      </div>
+                      <div class="ml-auto">
+                        <div class="btn-group" dropdown>
+                          <button class="btn btn-link" dropdownToggle>
+                            <em class="fa fa-ellipsis-v fa-lg"></em>
+                          </button>
+                          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right-forced animated fadeInLeft" role="menu">
+                            <a class="dropdown-item" href="">
+                              <em class="fas fa-code-branch mr-2"></em>
+                              <span>Demander l'accès'</span>
+                            </a>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="media mb-2">
+                      <div class="media-body mt-1">
+                        <h4>
+                          Projet 45
+                        </h4>
+                      </div>
+                      <div class="ml-auto">
+                        <div class="btn-group" dropdown>
+                          <button class="btn btn-link" dropdownToggle>
+                            <em class="fa fa-ellipsis-v fa-lg"></em>
+                          </button>
+                          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right-forced animated fadeInLeft" role="menu">
+                            <a class="dropdown-item" href="">
+                              <em class="fas fa-code-branch mr-2"></em>
+                              <span>Demander l'accès</span>
+                            </a>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="media mb-2">
+                      <div class="media-body mt-1">
+                        <h4>
+                          Projet 87
+                        </h4>
+                      </div>
+                      <div class="ml-auto">
+                        <div class="btn-group" dropdown>
+                          <button class="btn btn-link" dropdownToggle>
+                            <em class="fa fa-ellipsis-v fa-lg"></em>
+                          </button>
+                          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right-forced animated fadeInLeft" role="menu">
+                            <a class="dropdown-item" href="">
+                              <em class="fas fa-code-branch mr-2"></em>
+                              <span>Demander l'accès'</span>
+                            </a>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+    </div>
+    </div>
+  </div>
+</div>
+

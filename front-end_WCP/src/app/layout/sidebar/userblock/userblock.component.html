@@ -1,0 +1,16 @@
+<div class="item user-block" *ngIf="authenticationService.isUserLoggedIn()">
+    <!-- User picture-->
+    <div class="user-block-picture">
+        <div class="user-block-status" *ngIf="userInformations().genre">
+            <img class="img-thumbnail rounded-circle" [src]="'assets/img/user/'+userInformations().genre+'.png'" alt="Avatar" />
+            <div class="circle bg-success circle-lg"></div>
+        </div>
+    </div>
+    <!-- Name and Job-->
+    <div class="user-block-info">
+        <!--span class="user-block-name">{{ 'sidebar.WELCOME' | translate }}  John</span-->
+        <span class="user-block-name">{{userInformations().nom | uppercase}}&nbsp;{{userInformations().prenom}}</span>
+        <!--span class="user-block-name">BAINA Salah</span-->
+        <span class="user-block-role">Professeur à l'ENSIAS</span>
+    </div>
+</div>

@@ -1,0 +1,1720 @@
+<div class="content-heading" *ngIf="!(is_error || not_found || soum_not_authorized || soum_not_allowed || (problem && problem.isPrivate && !access))">
+  Détail de la proposition
+  <!--div *ngIf="authenticationService.isUserLoggedIn()" class="ml-auto">
+    <div class="btn-group" dropdown>
+      <button class="btn btn-link" placement="bottom" [tooltip]="'Options'" dropdownToggle>
+        <em class="fa fa-ellipsis-v fa-lg"></em>
+      </button>
+      <ul *dropdownMenu class="dropdown-menu dropdown-menu-right-forced animated fadeInLeft" role="menu">
+        <li class="dropdown-item pnt" *ngIf="!problem.isSubmitted" [routerLink]="'/app/collaboration/'+id+'/soumission'">
+          <em class="fa-fw fas fa-share mr-2"></em>
+          <span>Passer à la phase de négociation</span>
+        </li-->
+        <!--dans le cadre d'un projet-->
+        <!--li class="dropdown-item pnt">
+          <em class="fa-fw fa fa-stop-circle mr-2"></em>
+          <span>Demander l'accès</span>
+        </li-->
+        <!--seuelement pour le probOwner-->
+        <!--li class="dropdown-item pnt" [routerLink]="'/problemes/1/informations'">
+          <em class="fa-fw fas fa-share mr-2"></em>
+          <span>Supprimer définitivement ce projet</span>
+        </li>
+      </ul>
+    </div>
+  </div-->
+</div>
+<!--nhawl nsift request l lbackend nverifie wash y9dr ychouf dakshi-->
+<div class="row justify-content-center mt-3 mb-3" *ngIf="access">
+  <div class="btn-group">
+    <button class="btn" [ngClass]="type === 'pub' ? 'btn-green' : 'btn-secondary'" [routerLink]="'/app/collaboration/'+id+'/pub'" [disabled]="type === 'pub'">Networking</button>
+    <button class="btn" [ngClass]="type === 'info' ? 'btn-green' : 'btn-secondary'" [routerLink]="'/app/collaboration/'+id+'/info'" [disabled]="type === 'info'">Informations générales</button>
+    <button class="btn" [ngClass]="type === 'planification' ? 'btn-green' : 'btn-secondary'" [routerLink]="'/app/collaboration/'+id+'/planification'" [disabled]="type === 'planification'">Enrollement</button>
+    <button class="btn" [ngClass]="type === 'cal' ? 'btn-green' : 'btn-secondary'" [routerLink]="'/app/collaboration/'+id+'/cal'" [disabled]="type === 'cal'">Calendrier</button>
+  </div>
+</div>
+
+<div class="container">
+  <div *ngIf="is_error || not_found || soum_not_authorized || soum_not_allowed || (problem && problem.isPrivate && !access && type !== 'pub')" class="card card-default border-danger m-5 p-5">
+    <div class="row justify-content-center">
+      <em class="fa fa-exclamation-triangle fa-7x text-center" style="color: #F08080"></em>
+    </div>
+    <div class="row mt-5 justify-content-center">
+      <h4 class="text-center" *ngIf="is_error">Une erreur est survenue de coté serveur, Veuillez ressayer plus tard !</h4>
+      <h4 class="text-center" *ngIf="not_found">Aucun résultat trouvé pour l'identifiant spécifié !</h4>
+      <h4 class="text-center" *ngIf="soum_not_allowed">Vous avez déjà soumis votre demande !</h4>
+      <h4 class="text-center" *ngIf="soum_not_authorized">Action non autorisée, vous n'êtes pas le porteur d'idée pour l'identifiant spécifié !</h4>
+      <h4 class="text-center" *ngIf="problem && problem.isPrivate && !access">
+        <u>Action non autorisée !</u><br><br>
+        Ce projet est mis en privé, l'accès à ses informations et son déroulement est restreint seulement à ses membres.
+        <br><br>Si vous avez un accès à ce projet <u>(Pour utiliser ses résultats/livrables dans l'un de vos projets)</u> suite à une demande
+        , vous devez <u>consulter</u> premièrement votre projet, et aller vers la rubrique <u>Projets en accès</u> puis <u>cliquer</u> sur l'élément voulu.
+      </h4>
+    </div>
+  </div>
+
+  <div *ngIf="type === 'pub'">
+    <div *ngIf="en_cours_i" class="card card-default border-primary">
+      <div class="card-body mt-5">
+        <div class="row justify-content-center">
+          <div class="ball-pulse-rise">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <h4 class="text-center text-primary mt-5">Chargement des informations en cours</h4>
+      </div>
+    </div>
+    <div *ngIf="problem" class="card card-default border-primary">
+      <div class="card-header m-3">
+        <div class="row">
+          <h3>{{problem.probTitle}}</h3>
+          <div *ngIf="idUser == problem.idOwner" class="ml-auto">
+            <div class="btn-group" dropdown>
+              <button class="btn btn-link"  [tooltip]="'Options'" dropdownToggle>
+                Action <em class="fa fa-ellipsis-v fa-lg ml-2"></em>
+              </button>
+              <ul *dropdownMenu class="dropdown-menu dropdown-menu-right-forced animated fadeInLeft" role="menu">
+                <li class="dropdown-item pnt" (click)="modif ? init() : initWhenModif()">
+                  <em class="fa-fw fa  mr-2" [ngClass]="modif ? 'fa-hand-point-left': 'fa-pen'"></em>
+                  <span>{{!modif ? 'Modifier les informations de votre publication' : 'Retour'}}</span>
+                </li>
+                <li class="dropdown-item pnt">
+                  <em class="fa-fw fa fa-stop-circle mr-2"></em>
+                  <span>Désactiver les commentaires</span>
+                </li>
+                <!-- makhesshach tb9a tban mlli ndiro recrutement -->
+                <li class="dropdown-item pnt" [routerLink]="'/app/collaboration/'+problem.idPrj+'/soumission'">
+                  <em class="fa-fw fas fa-share mr-2"></em>
+                  <span>Passer à la phase de négociation</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="problem.probOwner">
+          <p class="clearfix col-lg-12">
+            <span class="float-left">
+                Publié par <a href="">{{problem.probOwner.genre == 'm' ? 'Mr' : 'Mme'}}.&nbsp;{{problem.probOwner.nom | uppercase}}&nbsp;{{problem.probOwner.prenom}}</a> (Professeur à l'ENSIAS)
+            </span>
+            <span class="float-right">{{problem.probDate | date: 'dd/MM/yyyy - HH:mm'}}</span>
+          </p>
+        </div>
+      </div>
+      <div *ngIf="!modif" class="card-body">
+        <div [ngxSummernoteView]="problem.probDesc" ></div>
+        <div *ngIf="skills">
+          <hr>
+          <h4 class="text-green">Tags (<small>compétences requises</small>) :</h4>
+          <div class="row ">
+            <div class="col-lg-10">
+              <ul class="list-inline m-0">
+                <li class="list-inline-item" *ngFor="let s of skills">
+                  <div class="badge bg-gray p-1">{{s.name}}</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="authenticationService.isUserLoggedIn()">
+          <hr>
+          <div class="row justify-content-center">
+            <span class="mt-1 text-green" *ngIf="react_type == 1">(Vous avez aimé cette publication !)</span>
+            <span class="mt-1 text-md text-green ml-2 mr-2">{{problem.countLikers}}</span>
+            <em class="fa-3x {{react_type == 1 ? 'fas' : 'far'}} fa-thumbs-up text-green mr-5" (click)="addReact(true)" [tooltip]="tooltipReact(true)"
+                [ngStyle]="{'cursor': (authenticationService.isUserLoggedIn() && idUser != problem.idOwner && react_type == 2 && react_type != 0) ? 'pointer' : 'not-allowed'}"></em>
+            <div class="justify-content-center mt-2" *ngIf="en_cours_r && authenticationService.isUserLoggedIn() && problem.idOwner != idUser">
+              <div class="line-scale-pulse-out-rapid">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <button class="bnt border border-dark btn-circle btn-outline-dark" [tooltip]="'Afficher plus de détails'" (click)="hide_details=true" *ngIf="details && !hide_details">
+              <em class="fa fa-plus"></em>
+            </button>
+
+            <button class="bnt border border-dark btn-circle btn-outline-dark" [tooltip]="'Masquer les détails'" (click)="hide_details=false;" *ngIf="hide_details">
+              <em class="fa fa-minus"></em>
+            </button>
+            <em class="fa-3x {{react_type == 0 ? 'fas' : 'far'}}  fa-thumbs-down text-danger ml-5" style="transform: scale(-1, 1);" (click)="addReact(false)" [tooltip]="tooltipReact(false)"
+                [ngStyle]="{'cursor': (authenticationService.isUserLoggedIn() && idUser != problem.idOwner && react_type == 2 && react_type != 1) ? 'pointer' : 'not-allowed'}"></em>
+            <span class="mt-1 text-md text-danger ml-2 mr-2">{{problem.countDislikers}}</span>
+            <span class="mt-1 text-danger" *ngIf="react_type == 0">(Vous n'aimez plus cette publication !)</span>
+          </div>
+          <div class="mt-3" *ngIf="hide_details">
+            <ul class="row list-inline m-0 justify-content-center" *ngIf="likers">
+              <li class="list-inline-item" *ngFor="let l of likers">
+                <div class="badge bg-gray font-weight-bold border border-success p-2 mt-1"><a href="">{{l.nom | uppercase}}&nbsp;{{l.prenom}}</a></div>
+              </li>
+            </ul>
+            <ul class="row list-inline m-0 justify-content-center" *ngIf="dislikers">
+              <li class="list-inline-item" *ngFor="let l of dislikers">
+                <div class="badge bg-gray font-weight-bold border border-danger p-2 mt-1"><a href="">{{l.nom | uppercase}}&nbsp;{{l.prenom}}</a></div>
+              </li>
+            </ul>
+            <div class="row mt-3 justify-content-center" >
+            </div>
+          </div>
+          <hr>
+          <div class="row justify-content-center" *ngIf="idUser != problem.idOwner">
+            <button class="btn btn-outline-dark m-2" type="button" (click)="demandeAdhesion(demande_type === 0)">
+              {{(demande_type === 0) ? 'Demander l\'adhésion au projet' : 'Annuler la demande d\'adhésion'}}
+            </button>
+            <div class="justify-content-center mt-2" *ngIf="en_cours_a">
+              <div class="line-scale-pulse-out-rapid">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+          <div class="div" *ngIf="details_d">
+            <h4 class="text-green mt-2">Demandes d'adhésion
+              <button class="ml-3 mt-1 btn btn-sm btn-oval btn-outline-secondary" (click)="hide_details_d = !hide_details_d">Afficher {{hide_details_d ? 'moins' : 'plus'}}</button>
+            </h4>
+            <div class="row mt-2 ml-4" *ngIf="hide_details_d">
+              <ul class="row list-inline m-0 justify-content-center">
+                <li class="list-inline-item" *ngFor="let d of demandes">
+                  <div class="badge bg-gray font-weight-bold border border-dark p-2 mt-1"><a href="">{{d.nom | uppercase}}&nbsp;{{d.prenom}}</a></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--hr>
+        <h4 class="text-green">Pièces jointes :</h4>
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="card card-default">
+              <div class="card-body text-center">
+                <div class="d-flex">
+                  <div class="ml-auto">
+                    <a class="text-muted mr-1" href="#" title="Télécharger">
+                      <em class="fa fa-download fa-fw"></em>
+                    </a>
+                  </div>
+                </div>
+                <a class="px-4" href="#">
+                  <em class="fa-5x far fa-file-archive text-warning"></em>
+                </a>
+                <p>
+                  <small class="text-dark">rapport-2016.zip</small>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="card card-default">
+              <div class="card-body text-center">
+                <div class="d-flex">
+                  <div class="ml-auto">
+                    <a class="text-muted mr-1" href="#" title="Télécharger">
+                      <em class="fa fa-download fa-fw"></em>
+                    </a>
+                  </div>
+                </div>
+                <a class="px-4" href="#">
+                  <em class="fa-5x far fa-file-pdf text-danger"></em>
+                </a>
+                <p>
+                  <small class="text-dark">architecture.pdf</small>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="card card-default">
+              <div class="card-body text-center">
+                <div class="d-flex">
+                  <div class="ml-auto">
+                    <a class="text-muted mr-1" href="#" title="Télécharger">
+                      <em class="fa fa-download fa-fw"></em>
+                    </a>
+                  </div>
+                </div>
+                <a class="px-4" href="#">
+                  <em class="fa-5x far fa-file-word text-primary"></em>
+                </a>
+                <p>
+                  <small class="text-dark">cahier_de_charges.doc</small>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="card card-default">
+              <div class="card-body text-center">
+                <div class="d-flex">
+                  <div class="ml-auto">
+                    <a class="text-muted mr-1" href="#" title="Télécharger">
+                      <em class="fa fa-download fa-fw"></em>
+                    </a>
+                  </div>
+                </div>
+                <a class="px-4" href="#">
+                  <em class="fa-5x far fa-file-powerpoint text-danger"></em>
+                </a>
+                <p>
+                  <small class="text-dark">demarche.ppt</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div -->
+      </div>
+      <div *ngIf="modif && problemModif" class="p-3">
+        <form class="form-horizontal">
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-2 col-form-label font-weight-bold text-green">Titre de l'idée</label>
+              <div class="col-md-10">
+                <input class="mb-3 form-control" type="text" name="prob-title" placeholder="Titre" [(ngModel)]="problemModif.probTitle" />
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div [ngxSummernote]="config1" [(ngModel)]="problemModif.probDesc" [ngModelOptions]="{standalone: true}"></div>
+          </fieldset>
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-2 col-form-label text-green"><strong>Tags </strong>(Compétences requises)</label>
+              <div class="col-md-10">
+                <ngx-select optionValueField="ref" optionTextField="name" noResultsFound="Aucun résulat" autoClearSearch="true" [multiple]="true" [items]="Allskills"
+                            [ngModelOptions]="{standalone: true}" [(ngModel)]="skl1" placeholder="Taper une compétence, une discipline, une thématique ...">
+                </ngx-select>
+                <div class="row m-2 mt-4 text-purple font-weight-bold"><u>
+                  * Si vous ne trouvez pas les élements voulus, veuillez les saisir dans la case suivante (après chaque élément saisi cliquez sur "ENTRER" ).
+                </u></div>
+                <tag-input theme="dark" placeholder="+élement" secondaryPlaceholder="Ajouter une compétence " name="tagName1" [ngModel]="skl2"
+                           (onAdd)="onItemAdded($event,1)" (onRemove)="onItemRemoved($event,1)">
+                </tag-input>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="m-3 ml-5" *ngIf="controlInformations()">
+              <div class="row text-danger" *ngFor="let e of errors">{{'* '+e}}</div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="form-group row mt justify-content-center">
+              <button class="btn btn-outline-inverse btn-lg col-md-3 font-weight-bold ml-2 mr-2" [disabled]="controlInformations() ? 'disabled' : null" (click)="alert()" >
+                Modifier votre publication
+              </button>
+              <div class="row justify-content-center mt-2" *ngIf="en_cours_mod">
+                <div class="line-scale-pulse-out-rapid">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+              <button class="btn btn-inverse btn-lg col-md-3 font-weight-bold ml-2 mr-2" (click)="init()" >
+                Retour
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="!modif">
+      <div class="card" *ngIf="authenticationService.isUserLoggedIn() && problem">
+        <div class="card-header text-green">
+          <em class="fas fa-pencil-alt  mr-2"></em>
+          <span class="font-weight-bold">Laisser votre avis </span>
+        </div>
+        <div class="card-body">
+          <div [ngxSummernote]="config" [(ngModel)]="commentaire.comment"></div>
+          <div class="row justify-content-center mt-2">
+            <button class="btn btn-primary m-2" type="button" (click)="addComment()" [disabled] = "isEmpty() ? 'disabled' : null">Valider votre commentaire</button>
+            <div class="justify-content-center mt-2" *ngIf="en_cours">
+              <div class="line-scale-pulse-out-rapid">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="problem" class="card">
+        <div class="card-header text-green">
+          <em class="fas fa-comments mr-2"></em>
+          <span class="font-weight-bold">{{all_comments>0 ? (all_comments == 1 ? '1 Commentaire' : all_comments + ' Commentaires') : ' Aucun commentaire pour l\'instant'}}</span>
+        </div>
+        <div class="card-body">
+          <!--div class="media">
+            <img class="mr-3 rounded-circle thumb48" src="assets/img/user/01.jpg" />
+            <div class="media-body">
+              <h4 >
+                <a href="">Mme. TAJI Noura</a>
+                <small class="text-muted">&nbsp;-31/08/2020 - 12:10</small>
+              </h4>
+              <p>Test reponse ...</p>
+            </div>
+          </div>
+          <hr/>
+          <div class="media">
+            <img class="mr-3 rounded-circle thumb48" src="assets/img/user/03.jpg" />
+            <div class="media-body mb-3">
+              <h4>
+                <a href="">Mr. AZIZI Ibrahim</a>
+                <small class="text-muted">&nbsp;-30/08/2020 - 15:30</small>
+              </h4>
+              <p>Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ...
+              Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... Test reponse 2 ... </p>
+              <hr/>
+              <div class="media">
+                <img class="mr-3 rounded-circle thumb32" src="assets/img/user/13.jpg" />
+                <div class="media-body">
+                  <h4 >
+                    <a href="">Mr. FADILI ADAM</a>
+                    <small class="text-muted">&nbsp;-30/08/2020 - 16:03</small>
+                    <span class="ml-2 p-1 badge bg-gray-dark">Auteur</span>
+                  </h4>
+                  <p>teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest teeeeeest </p>
+                </div>
+              </div>
+            </div>
+          </div-->
+          <div *ngIf="comments">
+            <div class="media" *ngFor="let c of comments">
+              <img class="mr-3 rounded-circle thumb48" [src]="'assets/img/user/'+c.user.genre+'.png'" />
+              <div class="media-body">
+                <h4 >
+                  <a href="">{{c.user.genre == 'm' ? 'Mr' : 'Mme'}}.&nbsp;{{c.user.nom | uppercase}}&nbsp;{{c.user.prenom}}</a>
+                  <small class="text-muted">&nbsp;,&nbsp;{{c.dateCom | date: 'dd/MM/yyyy - HH:mm'}}</small>
+                  <em class="fa fa-star text-warning ml-2" [tooltip]="'Vous êtes le propiétaire de ce commentaire'" *ngIf="c.idUser == idUser"></em>
+                  <span class="ml-2 p-1 badge bg-gray-dark" *ngIf="c.idUser == problem.idOwner">Auteur</span>
+                </h4>
+                <div [ngxSummernoteView]="c.comment"></div>
+                <hr/>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="en_cours_c">
+            <div class="row justify-content-center">
+              <div class="pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <h4 class="text-center text-primary mt-2">Chargement des commentaires en cours</h4>
+          </div>
+          <div class="row justify-content-center" *ngIf="!en_cours_c && showMore && all_comments>1">
+            <button class="btn btn-oval btn-outline-primary" (click)="getComments(current_count_comments + 10)">Afficher plus de commentaires</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="type === 'soumission' && problem && authenticationService.isUserLoggedIn() && !soum_not_authorized && !soum_not_allowed">
+  <div *ngIf="idUser === problem.idOwner">
+    <alert type="green">
+      <em class="fa fa-exclamation-circle fa-lg fa-fw"></em>
+      <span>
+        Dans cette phase, vous devez <strong>construire</strong> l'équipe du projet et <strong>renseigner</strong> quelques informations supplémentaires. <br>
+        Enfin, vous devez soumettre votre demande, et par la suite vous recevrez le résultat (acceptation ou refus).
+      </span>
+    </alert>
+    <div class="card card-default mt-4">
+      <div class="card-header">
+        <h4 class="text-primary">Construction de l'équipe - Négociation</h4>
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="col-lg-10">
+              <fieldset>
+                <div class="form-group row mb">
+                  <label class="col-md-2 col-form-label font-weight-bold text-green">Chef de projet</label>
+                  <div class="col-md-9">
+                    <div class="row m-2 text-purple font-weight-bold"><u>*Vous devez saisir un mot clé pour chercher une personne.
+                      une fois sélectionné, veuillez cliquer sur "Entrer" pour l'ajouter.
+                    </u></div>
+                    <ngx-select optionValueField="idU" optionTextField="nom" (select)="selected($event,1)" [allowClear]="true" [items]="usersC"
+                                (typed)="typed($event,1)" (remove)="idChef = '';usersC = []" [(ngModel)]="idChef" [ngModelOptions]="{standalone: true}" [noResultsFound]="res" placeholder="Chercher un membre">
+                    </ngx-select>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group row mb">
+                  <label class="col-md-2 col-form-label font-weight-bold text-green">Membres</label>
+                  <div class="col-md-9">
+                    <div class="row m-2 text-purple font-weight-bold"><u>*Vous devez saisir un mot clé pour chercher une personne.
+                      une fois sélectionné, veuillez cliquer sur "Entrer" pour l'ajouter et continuez de la même manière pour former l'équipe du projet
+                    </u></div>
+                    <ngx-select optionValueField="idU" optionTextField="nom" (select)="selected($event,2)" (remove)="removed($event)" [multiple]="true"
+                                [allowClear]="true" [items]="usersM" (typed)="typed($event,2)" [noResultsFound]="res" placeholder="Chercher un membre">
+                    </ngx-select>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group row mb">
+                  <label class="col-md-2 col-form-label font-weight-bold text-green">Invitation</label>
+                  <div class="col-md-9">
+                    <div class="row m-2 text-purple font-weight-bold"><u>*Pour inviter d'autres membres (externes de l'UM5), veuillez saisir leurs émails
+                      (après la saisie de chaque émail, cliquez sur "ENTRER" pour les ajouter). <br>
+                      *Si votre projet sera validé par le comité, des comptes utilisateurs temporaires seront créés pour ces invités.
+                    </u></div>
+                    <tag-input theme="dark" placeholder="+ membre externe" secondaryPlaceholder="Invitations externes" (onAdd)="onItemAdded($event,2)"
+                               (onRemove)="onItemRemoved($event,2)" [ngModel]="invitedUsers" [ngModelOptions]="{standalone: true}"
+                               [errorMessages]="errorMessages" [validators]="validators"></tag-input>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group row mb">
+                  <tabset [justified]="true" class="ie-fix-flex col-md-12">
+                    <tab>
+                      <ng-template tabHeading>
+                        <span class="text-green">Demandes d'adhésion</span>
+                      </ng-template>
+                      <div class="mt-3" *ngIf="demandes && demandes.length === 0">
+                        <hr>
+                        Aucune demande d'adhésion !
+                      </div>
+                      <div class="mt-3" *ngIf="demandes && demandes.length>0">
+                        <hr>
+                        <div class="badge btn-oval m-2 border" [ngClass]="checkIfAccepted(d.idU, 1) ? 'bg-green' : 'bg-gray border-primary'"
+                             *ngFor="let d of demandes">
+                          <!--lien vers son profil-->
+                          <a href="" [ngClass]="checkIfAccepted(d.idU, 1) ? 'text-white' : ''" [tooltip]="'Cliquez ici pour se rediriger vers le profil dans une nouvelle page'">{{d.nom | uppercase}} {{d.prenom}}</a>
+                          <button class="ml-3 mr-0 btn btn-circle btn-sm" [ngClass]="checkIfAccepted(d.idU, 1) ? 'btn-warning' : 'btn-outline-green'"
+                                  [tooltip]="checkIfAccepted(d.idU, 1) ? 'Cliquez-ici pour annuler l\'acceptation' : 'cliquez-ici pour accepter la demande'"
+                                  (click)="checkIfAccepted(d.idU, 1) ? updateDemande(d, false, 1) : updateDemande(d, true, 1)"
+                                  *ngIf="!checkIfSelectedBefore(d.idU)">
+                            <em class="fa" [ngClass]="checkIfAccepted(d.idU, 1) ? 'fa-minus' : 'fa-plus'"></em>
+                          </button>
+                          <button class="ml-3 mr-0 btn btn-circle btn-sm" [tooltip]="'Ce membre est déjà sélectionné dans l\'étape précédente'"
+                                  *ngIf="checkIfSelectedBefore(d.idU)">
+                            <em class="fa fa-check text-green"></em>
+                          </button>
+                        </div>
+                      </div>
+                    </tab>
+                    <tab>
+                      <ng-template tabHeading class="text-green">
+                        <span class="text-green">Recommandations des membres</span>
+                      </ng-template>
+                      <div class="mt-3" *ngIf="recommandationsUsers.length === 0">
+                        <hr>
+                        Aucune recommandation pour l'instant!
+                      </div>
+                      <div class="mt-3" *ngIf="recommandationsUsers.length>0">
+                        <hr>
+                        <div class="badge btn-oval m-2 border" [ngClass]="checkIfAccepted(d.idU, 2) ? 'bg-green' : 'bg-gray border-primary'"
+                             *ngFor="let d of recommandationsUsers">
+                          <!--lien vers son profil-->
+                          <a href="" target="_blank" [ngClass]="checkIfAccepted(d.idU, 2) ? 'text-white' : ''" [tooltip]="'Cliquez ici pour se rediriger vers le profil dans une nouvelle page'">{{d.nom | uppercase}} {{d.prenom}}</a>
+                          <button class="ml-3 mr-0 btn btn-circle btn-sm" [ngClass]="checkIfAccepted(d.idU, 2) ? 'btn-warning' : 'btn-outline-green'"
+                                  [tooltip]="checkIfAccepted(d.idU, 2) ? 'Cliquez-ici pour annuler l\'acceptation' : 'cliquez-ici pour ajouter le membre à l\'équipe'"
+                                  (click)="checkIfAccepted(d.idU, 2) ? updateDemande(d, false, 2) : updateDemande(d, true, 2)"
+                                  *ngIf="!checkIfSelectedBefore(d.idU)">
+                            <em class="fa" [ngClass]="checkIfAccepted(d.idU, 2) ? 'fa-minus' : 'fa-plus'"></em>
+                          </button>
+                          <button class="ml-3 mr-0 btn btn-circle btn-sm" [tooltip]="'Ce membre est déjà sélectionné dans l\'étape précédente'"
+                                  *ngIf="checkIfSelectedBefore(d.idU)">
+                            <em class="fa fa-check text-green"></em>
+                          </button>
+                        </div>
+                      </div>
+                    </tab>
+                  </tabset>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-header">
+        <hr>
+        <h4 class="text-primary">Informations Supplémentaires</h4>
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="col-lg-10">
+              <fieldset>
+                <div class="form-group row mb">
+                  <label class="col-md-2 col-form-label font-weight-bold text-green">Visibilité</label>
+                  <div class="col-md-9">
+                    <div class="row m-2 text-purple font-weight-bold"><u>*Si vous marquez la visibilité du projet comme "privé", seulement ses membres qui peuvent
+                      accéder à son déroulement sauf si quelqu'un demande l'accès pour utiliser ses résultats(livrables) dans un autre projet.
+                    </u></div>
+                    <div class="ml-auto d-flex">
+                      <span class="font-weight-bold mr-2">Public</span>
+                      <label class="switch switch-lg m-0 mr-2">
+                        <input type="radio" [value]="'pub'" [(ngModel)]="checked" name="radioSwitch" />
+                        <span></span>
+                      </label>
+                      <label class="switch switch-lg m-0">
+                        <input type="radio" [value]="'prv'" [(ngModel)]="checked" name="radioSwitch" />
+                        <span></span>
+                      </label>
+                      <span class="font-weight-bold ml-2">Privé</span>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <!--fieldset>
+                <div class="form-group row mb p-2" *ngIf="recommandationsProjets.length>1">
+                    <div class="col-md-12">
+                      <tabset [justified]="true" class="ie-fix-flex">
+                        <tab>
+                          <ng-template tabHeading class="text-green">
+                            <span class="text-green">Recommandations des projets similaires</span>
+                          </ng-template>
+                          <div *ngIf="recommandationsProjets.length === 0">
+                            <hr>
+                            Aucune recommandation pour l'instant !
+                          </div>
+                          <div *ngIf="recommandationsProjets.length>0">
+                            <hr>
+                            <div class="badge btn-oval m-2 border" [ngClass]="checkIfAccepted(d.idPrj, 3) ? 'bg-green' : 'bg-gray border-primary'"
+                                 *ngFor="let d of recommandationsProjets">
+                              <a href="" (click)="goToLink(d.idPrj,'pub')" [ngClass]="checkIfAccepted(d.idPrj, 3) ? 'text-white' : ''" [tooltip]="'Cliquez ici pour se rediriger vers le projet dans une nouvelle page'">{{d.probTitle}}</a>
+                              <button class="ml-3 mr-0 btn btn-circle btn-sm" [ngClass]="checkIfAccepted(d.idPrj, 3) ? 'btn-warning' : 'btn-outline-green'"
+                                      [tooltip]="checkIfAccepted(d.idPrj, 3) ? 'Cliquez-ici pour annuler l\'acceptation' : 'cliquez-ici pour demander l\'accès au projet'"
+                                      (click)="checkIfAccepted(d.idPrj, 3) ? updateDemande(d, false, 3) : updateDemande(d, true, 3)">
+                                <em class="fa" [ngClass]="checkIfAccepted(d.idPrj, 3) ? 'fa-minus' : 'fa-plus'"></em>
+                              </button>
+                            </div>
+                          </div>
+                        </tab>
+                      </tabset>
+                    </div>
+                </div>
+              </fieldset-->
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer text-center">
+        <!--button class="btn btn-lg m-3 btn-outline-primary btn-oval" (click)="soumettre()" [disabled] = "(!controlInformationsSubmit() && !dis) ? null : 'disabled'">Soumettre le projet au jury</button-->
+        <button class="btn btn-lg m-3 btn-outline-primary btn-oval" (click)="soumettre()" [disabled] = "(!controlInformationsSubmit() && !dis) ? null : 'disabled'">Lancer le projet</button>
+        <div class="row justify-content-center mt-2" *ngIf="en_cours_s">
+          <div class="line-scale-pulse-out-rapid">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div class="row justify-content-center text-danger mt-2" *ngIf="controlInformationsSubmit()">
+          <ul>
+            <li *ngFor="let e of errors">{{e}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="type === 'info'">
+  <div *ngIf="en_cours_i" class="card card-default border-primary">
+    <div class="card-body mt-5">
+      <div class="row justify-content-center">
+        <div class="ball-pulse-rise">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <h4 class="text-center text-primary mt-5">Chargement des informations en cours</h4>
+    </div>
+  </div>
+  <div *ngIf="problem && access">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card bg-green">
+          <div class="d-flex bg-dark">
+            <div class="w-50 bb br px-3">
+              <div class="d-flex align-items-center">
+                <em class="fa-2x {{problem.isPrivate ? 'icon-lock' : 'icon-lock-open'}}"></em>
+                <div class="ml-auto">
+                  <div class="card-body text-right">
+                    <h4 class="mt-0">Accès</h4>
+                    <p class="mb-0 text-muted text-white">{{problem.isPrivate ? 'Privé' : 'Public'}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-50 bb px-3">
+              <div class="d-flex align-items-center">
+                <em class="fa-2x {{getRole() ? 'icon-user-following' : 'icon-user-unfollow'}}"></em>
+                <div class="ml-auto">
+                  <div class="card-body text-right">
+                    <h4 class="mt-0">Rôle</h4>
+                    <p class="mb-0 text-muted text-white">{{role}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="w-50 bb br px-3">
+              <div class="d-flex align-items-center">
+                <em class="fa-2x icon-people"></em>
+                <div class="ml-auto">
+                  <div class="card-body text-right">
+                    <h4 class="mt-0">{{problem.membres ? problem.membres.length : '0'}}</h4>
+                    <p class="mb-0 text-muted text-white">Membres</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-50 bb px-3">
+              <div class="d-flex align-items-center">
+                <em class="fas fa-tasks fa-2x"></em>
+                <div class="ml-auto">
+                  <div class="card-body text-right">
+                    <h4 class="mt-0">{{problem.countTaches}}</h4>
+                    <p class="mb-0 text-muted text-white">Mobilisations</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center bb">
+            <div class="w-100">
+              <div tooltip="Progression des mobilisations terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="dark" value="{{problem.pourcentageCompleted}}"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right mr-1">
+              <div class="text-bold text-muted text-white">{{problem.pourcentageCompleted}}%</div>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="w-50 br px-3">
+              <div class="d-flex align-items-center">
+                <em class="fa-2x fas fa-code-branch"></em>
+                <div class="ml-auto">
+                  <div class="card-body text-right">
+                    <h4 class="mt-0">{{problem.countAccessPrj}}</h4>
+                    <p class="mb-0 text-muted text-white">Projets en accès</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-50 px-3">
+              <div class="d-flex align-items-center">
+                <em class="fa icon-layers fa-2x"></em>
+                <div class="ml-auto">
+                  <div class="card-body text-right">
+                    <h4 class="mt-0">{{problem.countRequestPrj}}</h4>
+                    <p class="mb-0 text-muted text-white">Accès à ce projet</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-default">
+          <div class="card-body">
+            <h4 class="text-green text-bold">Dates importantes</h4>
+            <ul>
+              <li><b>Publication de l'idée :</b>&nbsp;{{problem.probDate | date: 'dd/MM/yyyy - HH:mm'}}</li>
+              <li *ngIf="problem.dateSoumission"><b>Soumission de la demande :</b>&nbsp;{{problem.dateSoumission | date: 'dd/MM/yyyy - HH:mm'}}</li>
+              <li *ngIf="problem.dateAffectation"><b>Affectation à la comission :</b>&nbsp;{{problem.dateAffectation | date: 'dd/MM/yyyy - HH:mm'}}</li>
+              <li *ngIf="problem.dateDebut"><b>Début du projet :</b>&nbsp;{{problem.dateDebut | date: 'dd/MM/yyyy - HH:mm'}}</li>
+              <li *ngIf="problem.dateFin"><b>Fin du projet :</b>&nbsp;{{problem.dateFin | date: 'dd/MM/yyyy - HH:mm'}}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card card-default">
+          <div class="card-body">
+            <h4 class="text-green text-bold">Projets en accès</h4>
+            <div class="justify-content-center">
+              <div class="text-center" *ngIf="!en_cours_c && prjAccess && prjAccess.length === 0">
+                <h4>Aucun projet en accès !</h4>
+              </div>
+              <div class="text-center overflow-auto sc" *ngIf="prjAccess && prjAccess.length > 0" style="max-height: 300px !important;">
+                <div class="card card-default border-info m-1 mt-2" *ngFor="let p of prjAccess">
+                  <div class="card-body p-1 text-center">
+                    <a href="" (click)="goToLink(p.idRequestedPrj, 'info')" placement="bottom" [tooltip]="'Cliquez ici pour se rediriger vers le projet'">
+                      <h4>{{p.projet.probTitle}}</h4>
+                    </a>
+                  </div>
+                  <div class="card-footer" *ngIf="p.dateDecision">
+                    Depuis&nbsp;{{p.dateDecision | date: 'dd/MM/yyyy - HH:mm'}}
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="en_cours_c">
+                <div class="loader-demo d-flex align-items-center justify-content-center">
+                  <div class="ball-scale-ripple-multiple">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <h4 class="text-center text-primary mt-1">Chargement des données en cours</h4>
+              </div>
+            </div>
+            <div *ngIf="!(problem.countAccessPrj === 0 || problem.countAccessPrj === current_prj_access || en_cours_c)" class="justify-content-center text-center">
+              <hr>
+              <button class="btn btn-oval btn-outline-dark mt-2" (click)="getPrjAccess(current_prj_access+skip, 1)">
+                Afficher plus
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="row mt-1 mb-1" *ngIf="problem.isSubmitted && problem.etat !== 1">
+          <alert type="info" class="col-lg-12" *ngIf="problem.etat === 2">
+            <em class="fa fa-exclamation-circle fa-lg fa-fw mr-1"></em>
+            <span>Votre demande est en cours de traitement, vous recevrez la décision de la comission des projets le plus tôt possible.</span>
+          </alert>
+          <alert type="danger" class="col-lg-12" *ngIf="problem.etat === 0">
+            <em class="fa fa-exclamation-circle fa-lg fa-fw mr-1"></em>
+            <span>Malheureusement votre demande est refusée pour les motifs suivants:</span><br>
+            <div class="font-weight-bold">
+              {{problem.motifsRefus}}
+            </div>
+          </alert>
+        </div>
+        <div class="card card-default">
+          <div class="card-header text-info text-bold">
+            <h4>Equipe du projet</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 text-green text-bold">Chef de projet</div>
+              <div class="col-lg-9">
+                <div class="badge bg-gray m-1 p-2 font-weight-bold">
+                  <a href="">{{problem.chef.nom | uppercase}}&nbsp;{{problem.chef.prenom}}</a>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-lg-12 text-green text-bold">Membres</div>
+              <div class="col-lg-12">
+                <ul class="list-inline m-0">
+                  <!--li class="list-inline-item" *ngFor="let m of projet.membres"-->
+                  <li class="list-inline-item" *ngFor="let m of getUsers('ROLE_MEMBRE')">
+                    <div class="badge bg-gray m-1 p-2">
+                      <a href="">{{m.nom | uppercase}}&nbsp;{{m.prenom}}</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-lg-12 text-green text-bold">Membres Invités (Externes)</div>
+              <div class="col-lg-12">
+                <ul class="list-inline m-0">
+                  <li class="list-inline-item" *ngFor="let m of getUsers('ROLE_INVITED')">
+                    <div class="badge bg-gray m-1 p-2">
+                      <a href="">{{m.nom | uppercase}}&nbsp;{{m.prenom}}</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-default mt-2" *ngIf="problem.chef.idU === idUser && problem.etat == 1">
+          <div class="card-body">
+            <tabset [justified]="true" class="ie-fix-flex">
+              <tab>
+                <ng-template tabHeading class="text-green">
+                  <span class="text-green">Demandes d'accès à d'autres projets</span>
+                </ng-template>
+                <div *ngIf="!en_cours_all && prjAccessAll && prjAccessAll.length === 0">
+                  Aucune demande d'accès pour ce moment !
+                </div>
+                <div *ngIf="prjAccessAll && prjAccessAll.length > 0">
+                  <div class="table-responsive sc overflow-auto" style="max-height: 300px !important;">
+                    <table class="table table-bordered table-hover">
+                      <thead class="bg-dark">
+                        <tr>
+                          <th class="text-white">Projet</th>
+                          <th class="text-white">Date de demande</th>
+                          <th class="text-white">Date de décision</th>
+                          <th class="text-white">Etat</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let d of prjAccessAll">
+                          <td>
+                            <ng-template #pop>
+                                <h5 class="text-primary" style="text-decoration: blink; cursor: pointer" (click)="goToLink(d.idRequestedPrj, 'info')" [tooltip]="'Cliquez ici pour se rediriger vers le projet'">
+                                  <u>{{d.projet.probTitle}}</u>
+                                </h5>
+                            </ng-template>
+                            <button type="button" class="btn btn-default btn-secondary" [outsideClick]="true" [popover]="pop" popoverTitle="accès au projet" placement="top" container="body">
+                              Cliquez-ici
+                            </button>
+                          </td>
+                          <td>{{d.dateDemande ? (d.dateDemande | date: 'dd/MM/yyyy - HH:mm') : '---'}}</td>
+                          <td>{{d.dateDecision ? (d.dateDecision | date: 'dd/MM/yyyy - HH:mm') : '---'}}</td>
+                          <td class="text-center">
+                            <div class="badge text-white m-1 p-1 font-weight-bold {{d.etat === 1 ? 'bg-green' : (d.etat === 2 ? 'bg-info' : 'bg-danger')}}">
+                              {{d.etat === 1 ? 'acceptée' : (d.etat === 2 ? 'en cours' : 'refusée')}}
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div *ngIf="en_cours_all" class="justify-content-center">
+                  <div class="loader-demo d-flex align-items-center justify-content-center">
+                    <div class="ball-scale-ripple-multiple">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                  <h4 class="text-center text-primary mt-1">Chargement des données en cours</h4>
+                </div>
+                <div *ngIf="!(problem.countAccessPrjAll === 0 || problem.countAccessPrjAll === current_prj_access_all || en_cours_all)" class="justify-content-center text-center">
+                  <hr>
+                  <button class="btn btn-oval btn-outline-dark mt-2" (click)="getPrjAccess(current_prj_access_all+skip, 2)">
+                    Afficher plus
+                  </button>
+                </div>
+              </tab>
+              <tab>
+                <ng-template tabHeading class="text-green">
+                  <span class="text-green">Recommandation des projets</span>
+                </ng-template>
+                <div *ngIf="!en_cours_mod && recommandationsProjets.length === 0">
+                  <hr>
+                  Aucune recommandation pour l'instant !
+                </div>
+                <div *ngIf="en_cours_mod" class="justify-content-center">
+                  <div class="loader-demo d-flex align-items-center justify-content-center">
+                    <div class="ball-scale-ripple-multiple">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                  <h4 class="text-center text-primary mt-1">Chargement des données en cours</h4>
+                </div>
+                <div *ngIf="recommandationsProjets.length>0" class="sc overflow-auto" style="max-height: 350px !important;">
+                  <hr>
+                  <div class="mb-1 font-weight-bold">
+                    <u>* Vous trouvez ci-dessous les projets les plus recommandés selon les compétences que vous avez spécifié préalablement.</u><br>
+                    <u>* Si vous cliquez sur un projet, vous serez redirigé vers ses informations dans une nouvelle page.</u><br>
+                    <u>* Si vous êtes intéressé par un projet (pour utiliser ses résultats/livrables), veuillez cliquer sur (+), et à la fin, vous devez valider vos choix.</u>
+                  </div>
+                  <div class="badge btn-oval m-2 border" [ngClass]="checkIfAccepted(d.idPrj, 3) ? 'bg-green' : 'bg-gray border-primary'"
+                       *ngFor="let d of recommandationsProjets">
+                    <a href="" target="_blank" (click)="goToLink(d.idPrj,'info')" [ngClass]="checkIfAccepted(d.idPrj, 3) ? 'text-white' : ''" [tooltip]="'Cliquez ici pour se rediriger vers le projet dans une nouvelle page'">{{d.probTitle}}</a>
+                    <button class="ml-3 mr-0 btn btn-circle btn-sm" [ngClass]="checkIfAccepted(d.idPrj, 3) ? 'btn-warning' : 'btn-outline-green'"
+                            [tooltip]="checkIfAccepted(d.idPrj, 3) ? 'Cliquez-ici pour annuler l\'acceptation' : 'cliquez-ici pour demander l\'accès au projet'"
+                            (click)="checkIfAccepted(d.idPrj, 3) ? updateDemande(d, false, 3) : updateDemande(d, true, 3)">
+                      <em class="fa" [ngClass]="checkIfAccepted(d.idPrj, 3) ? 'fa-minus' : 'fa-plus'"></em>
+                    </button>
+                  </div>
+                  <hr>
+                  <div class="align-content-center text-center">
+                    <button class="btn btn-oval btn-outline-dark" [disabled]="recommandationsProjetsAccepted.length === 0" (click)="demandeAcces()">
+                      Valider vos choix
+                    </button>
+                    <div class="justify-content-center mt-2" *ngIf="en_cours_r">
+                      <div class="line-scale-pulse-out-rapid">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+              <tab>
+                <ng-template tabHeading class="text-green">
+                  <span class="text-green">Demandes d'accès à ce projet</span>
+                </ng-template>
+                <div *ngIf="!en_cours_req && prjAccessRequested && prjAccessRequested.length === 0">
+                  Aucune demande d'accès pour ce moment !
+                </div>
+                <div *ngIf="prjAccessRequested && prjAccessRequested.length > 0">
+                  <div class="table-responsive sc overflow-auto" style="max-height: 300px !important;">
+                    <table class="table table-bordered table-hover">
+                      <thead class="bg-dark">
+                        <tr>
+                          <th class="text-white">Projet</th>
+                          <th class="text-white">Date de demande</th>
+                          <th class="text-white">Date de décision</th>
+                          <th class="text-white">Etat</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let d of prjAccessRequested">
+                          <td>
+                            <ng-template #pop>
+                              <h5 class="text-primary" style="text-decoration: blink; cursor: pointer" (click)="goToLink(d.idPrj, 'info')" [tooltip]="'Cliquez ici pour se rediriger vers le projet'">
+                                <u>{{d.projet.probTitle}}</u>
+                              </h5>
+                            </ng-template>
+                            <button type="button" class="btn btn-default btn-secondary" [outsideClick]="true" [popover]="pop" popoverTitle="Demande d'accès" placement="top" container="body">
+                              Cliquez-ici
+                            </button>
+                          </td>
+                          <td>{{d.dateDemande ? (d.dateDemande | date: 'dd/MM/yyyy - HH:mm') : '---'}}</td>
+                          <td>{{d.dateDecision ? (d.dateDecision | date: 'dd/MM/yyyy - HH:mm') : '---'}}</td>
+                          <td class="text-center">
+                            <div *ngIf="d.etat !== 2">
+                              <span class="badge text-white m-1 p-1 font-weight-bold {{d.etat === 1 ? 'bg-green' : 'bg-danger'}}">
+                                {{d.etat === 1 ? 'acceptée' : 'refusée'}}
+                              </span>
+                            </div>
+                            <div *ngIf="d.etat === 2">
+                              <div class="btn-group p-1 border-secondary">
+                                <button class="btn btn-circle btn-outline-green border mr-2" placement="left" tooltip="Accepter" [disabled]="en_cours_r"
+                                        (click)="deciderDemande(true, d)">
+                                  <em class="fa-2x icon-check"></em>
+                                </button>
+                                <div class="justify-content-center mt-2" *ngIf="en_cours_r">
+                                  <div class="line-scale-pulse-out-rapid">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                  </div>
+                                </div>
+                                <button class="btn btn-circle btn-outline-danger border" placement="left" tooltip="Refuser" [disabled]="en_cours_r"
+                                        (click)="deciderDemande(false, d)">
+                                  <em class="fa-2x icon-trash"></em>
+                                </button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div *ngIf="en_cours_req" class="justify-content-center">
+                  <div class="loader-demo d-flex align-items-center justify-content-center">
+                    <div class="ball-scale-ripple-multiple">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                  <h4 class="text-center text-primary mt-1">Chargement des données en cours</h4>
+                </div>
+                <div *ngIf="!(problem.countRequestPrjAll === 0 || problem.countRequestPrjAll === current_prj_access_req || en_cours_req)" class="justify-content-center text-center">
+                  <hr>
+                  <button class="btn btn-oval btn-outline-dark mt-2" (click)="getPrjAccess(current_prj_access_req+skip, 2)">
+                    Afficher plus
+                  </button>
+                </div>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="type === 'planification'">
+  <div *ngIf="en_cours_i" class="card card-default border-primary">
+    <div class="card-body mt-5">
+      <div class="row justify-content-center">
+        <div class="ball-pulse-rise">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <h4 class="text-center text-primary mt-5">Chargement des données en cours</h4>
+    </div>
+  </div>
+  <div *ngIf="!en_cours_i && problem && access">
+    <div *ngIf="problem.chef && idUser === problem.chef.idU">
+      <div class="row">
+        <div class="col-lg-12">
+          <button class="float-right btn btn-outline-primary font-weight-bold btn-md" (click)="addPhaseModal.show()">
+            <em class="icon-plus mr-1"></em>Ajouter une phase
+          </button>
+        </div>
+        <div class="col-lg-12">
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card card-default">
+          <div class="card-body">
+            <h4 class="text-green text-bold">
+              Phases du projet
+              <span class="ml-2 badge bg-dark text-white font-weight-bold">{{problem.countPhases}}</span>
+            </h4>
+            <div class="justify-content-center">
+              <div class="text-center" *ngIf="!en_cours_c && phases && phases.length === 0">
+                <h4>Aucune phase pour l'instant !</h4>
+              </div>
+              <div class="text-center overflow-auto sc" *ngIf="phases && phases.length > 0" style="max-height: 550px !important;">
+                <div class="pnt card card-default m-1 mt-2 {{ph.idPhase === selectedPhase.idPhase ? 'border-dark' : 'border-info'}}" *ngFor="let ph of phases">
+                  <div class="card-body p-1 text-center">
+                    <div (click)="selectedPhase = ph; current_count_taches=0; selectedPhase.taches = []; getTaches(skip); scroll(phase)" placement="bottom" [tooltip]="'Cliquez ici pour afficher les détails'">
+                      <h4 class="text-primary">{{ph.titre}}</h4>
+                    </div>
+                  </div>
+                  <div class="card-footer" [ngClass]="{'bg-purple-light': ph.dateFin}" *ngIf="ph.dateDebut">
+                    Depuis&nbsp;<b>{{ph.dateDebut | date: 'dd/MM/yyyy'}}</b>&nbsp;
+                    <span *ngIf="ph.dateFin">,&nbsp;jusqu'à&nbsp;<b>{{ph.dateFin| date: 'dd/MM/yyyy'}}</b>&nbsp;</span>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="en_cours_c">
+                <div class="loader-demo d-flex align-items-center justify-content-center">
+                  <div class="ball-scale-ripple-multiple">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <h4 class="text-center text-primary mt-1">Chargement des phases en cours</h4>
+              </div>
+            </div>
+            <div *ngIf="!(problem.countPhases === 0 || problem.countPhases === current_count_phases || en_cours_c)" class="justify-content-center text-center">
+              <hr>
+              <button class="btn btn-oval btn-outline-dark mt-2" (click)="getPhases(current_count_phases+skip)">
+                Afficher plus
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8" *ngIf="phases && !en_cours_c && phases.length === 0 && problem.chef && idUser === problem.chef.idU">
+        <div class="card card-default border-dark">
+          <div class="card-body">
+            <h4>
+              Aucune phase pour l'instant, veuillez cliquez sur le boutton en haut à droite : <u>"Ajouter une phase"</u>.
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8" #phase>
+        <div class="card card-default border-dark" *ngIf="phases && !en_cours_c && selectedPhase != null">
+          <div class="card-header">
+            <div class="row">
+              <h3 class="ml-2">{{selectedPhase.titre}}<span *ngIf="selectedPhase.dateFin" class="ml-2 badge p-1 bg-purple">&nbsp;cloturée</span></h3>
+              <div *ngIf="problem.chef.idU == idUser" class="ml-auto">
+                <div class="btn-group" dropdown>
+                  <button class="btn btn-link" placement="left" [tooltip]="'Options'" dropdownToggle>
+                    <em class="fa fa-ellipsis-v fa-lg"></em>
+                  </button>
+                  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right-forced animated fadeInLeft" role="menu">
+                    <li class="dropdown-item pnt" (click)="setUpdatedPhase(false)" *ngIf="!selectedPhase.dateFin">
+                      <em class="fa-fw icon-calendar text-green mr-2"></em>
+                      <span>Marquer la phase comme terminée</span>
+                    </li>
+                    <li class="dropdown-item pnt" (click)="setUpdatedPhase(true)">
+                      <em class="fa-fw fas fa-pen mr-2 text-purple"></em>
+                      <span>Modifier les informations de la phase</span>
+                    </li>
+                    <li class="dropdown-item pnt" (click)="deletePhase()">
+                      <em class="fa-fw fa fa-trash text-danger mr-2"></em>
+                      <span>Supprimer la phase</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row justify-content-center" *ngIf="en_cours_rp">
+              <div class="line-scale-pulse-out-rapid">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <accordion>
+              <accordion-group panelClass="m-0 p-0 bg-white" (isOpenChange)="open($event)" [isOpen]="ao" class="border border-info">
+                <div accordion-heading class="pnt {{ao ? 'text-dark' : 'text-primary'}}" >
+                  <h4><em class="fa mr-2 {{ao ? 'fa-minus' : 'fa-plus'}}"></em>Description</h4>
+                </div>
+                <div [ngxSummernoteView]="selectedPhase.description" ></div>
+              </accordion-group>
+            </accordion>
+            <div class="row">
+              <div class="col-lg-12">
+                <span class="text-md text-green float-left">Mobilisations<span class="ml-2 badge bg-dark text-white font-weight-bold">{{selectedPhase.countTaches}}</span></span>
+                <button class="mt-2 float-right btn btn-outline-dark font-weight-bold btn-md" (click)="clickSaveTache(null, 1);saveTache.show()" *ngIf="problem.chef.idU == idUser && !selectedPhase.dateFin">
+                  <em class="icon-layers mr-1"></em>Ajouter une mobilisation
+                </button>
+              </div>
+            </div>
+            <hr>
+            <div *ngIf="selectedPhase.taches && selectedPhase.taches.length === 0 && !en_cours_all">
+              <h4>
+                Aucune mobilisation pour l'instant<span *ngIf="problem.chef.idU === idUser">, veuillez cliquez sur le boutton : <u>"Ajouter une mobilisation"</u></span>.
+              </h4>
+            </div>
+            <div class="text-center overflow-auto sc" style="max-height: 500px !important;">
+              <div class="table-responsive" *ngIf="selectedPhase.taches && selectedPhase.taches.length > 0">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th *ngIf="idUser === problem.chef.idU && !selectedPhase.dateFin"></th>
+                      <th class="bg-purple text-white">Titre</th>
+                      <th class="bg-purple text-white">Membre affecté</th>
+                      <th class="bg-purple text-white">Date limite</th>
+                      <th class="bg-purple text-white">Livrable</th>
+                      <th *ngIf="idUser === problem.chef.idU && !selectedPhase.dateFin"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let t of selectedPhase.taches" class="{{idUser === t.idMembre ? 'bg-gray' : ''}}">
+                      <td *ngIf="idUser === problem.chef.idU && !selectedPhase.dateFin">
+                        <button class="btn btn-circle btn-outline-dark" [tooltip]="'Modifier'" placement="right" (click)="clickSaveTache(t,0);saveTache.show()">
+                          <em class="fa-2x icon-pencil"></em>
+                        </button>
+                      </td>
+                      <td>{{t.title}}</td>
+                      <td>{{(t.user.nom | uppercase)+" "+t.user.prenom}}</td>
+                      <td>{{t.dateLimite | date: 'dd/MM/yyyy - HH:mm'}}&nbsp;
+                        <span *ngIf="getDiffDate(t.dateLimite, t.dateRemise, t.livrable).length > 0" placement="right"
+                              class="{{getDiffDate(t.dateLimite, t.dateRemise, t.livrable)[0]}}" tooltip="{{getDiffDate(t.dateLimite, t.dateRemise, t.livrable)[1]}}">
+                          &nbsp;</span>
+                      </td>
+                      <td>
+                        <button *ngIf="t.livrable && (!en_cours_lv || t.ref !== selectedTache.ref)" class="btn btn-purple" (click)="clickSaveTache(t, 4)">
+                          Cliquez-ici
+                        </button>
+                        <button *ngIf="!selectedPhase.dateFin && !t.livrable && t.idMembre === idUser && (!en_cours_lv || t.ref !== selectedTache.ref)" class="btn btn-oval btn-outline-purple" (click)="clickSaveTache(t, 3)">
+                          Ajouter le livrable
+                        </button>
+                        <span *ngIf="!t.livrable && t.idMembre !== idUser && (!en_cours_lv || t.ref !== selectedTache.ref)">---</span>
+                        <div class=" mt-2" *ngIf="en_cours_lv && t.ref === selectedTache.ref">
+                          <div class="line-scale-pulse-out-rapid">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td *ngIf="idUser === problem.chef.idU && !selectedPhase.dateFin">
+                        <button class="btn btn-circle btn-outline-danger" (click)="clickSaveTache(t,2);" [tooltip]="'Supprimer'" placement="left" *ngIf="!en_cours_rt || t.ref !== selectedTache.ref">
+                          <em class="fa-2x icon-trash"></em>
+                        </button>
+                        <div class=" mt-2" *ngIf="en_cours_rt && t.ref === selectedTache.ref">
+                          <div class="line-scale-pulse-out-rapid">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="en_cours_all">
+                <div class="loader-demo d-flex align-items-center justify-content-center">
+                  <div class="ball-scale-ripple-multiple">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <h4 class="text-center text-primary mt-1">Chargement des mobilisations en cours</h4>
+              </div>
+              <button class="mt-2 btn btn-primary" (click)="getTaches(current_count_taches+skip)" *ngIf="!(selectedPhase.countTaches === 0 || selectedPhase.countTaches === current_count_taches || en_cours_all)">
+                <em class="icon-plus mr-2">Afficher plus</em>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="type === 'cal'">
+  <div class="card card-default" *ngIf="allPhases && allPhases.length > 0">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-lg-3">
+          <h4 class="text-green">Choisir une phase</h4>
+        </div>
+        <div class="col-lg-8">
+          <ngx-select optionValueField="idPhase" optionTextField="titre" (select)="selectPhase($event)" [allowClear]="true" [items]="allPhases"
+                        [noResultsFound]="'Aucun résultat trouvé'" placeholder="Chercher une phase par son titre" [(ngModel)]="idPhase">
+          </ngx-select>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="card-body">
+      <div class="row" *ngIf="selectedPhase != null && allPhases.length > 0">
+        <div class="col-lg-12">
+          <h3 class="text-center text-primary">
+            {{selectedPhase.titre}}
+            <span class="ml-2 badge p-1 bg-dark text-white" *ngIf="selectedPhase.countTaches > 0">{{selectedPhase.countTaches}}&nbsp;mobilisations</span>
+          </h3>
+        </div>
+        <div class="col-lg-12" *ngIf="selectedPhase.dateDebut">
+          <h5 class="text-center">
+            Depuis le&nbsp;
+            <u><b [tooltip]="'Cliquez-ici pour se rediriger vers cette date'" (click)="redirectDate(selectedPhase.dateDebut)" class="text-purple pnt">
+              {{selectedPhase.dateDebut | date:'dd/MM/yyyy'}}
+            </b></u>&nbsp;
+            <span *ngIf="selectedPhase.dateFin">, jusqu'à&nbsp;
+              <u><b [tooltip]="'Cliquez-ici pour se rediriger vers cette date'" (click)="redirectDate(selectedPhase.dateFin)" class="text-purple pnt">
+                {{selectedPhase.dateFin | date:'dd/MM/yyyy'}}
+              </b></u>
+            </span>
+          </h5>
+        </div> <div class="col-lg-12" *ngIf="selectedPhase.countTaches === 0">
+          <h5 class="text-center">
+            Aucune mobilisation pour le moment !
+          </h5>
+        </div>
+      </div>
+      <div *ngIf="selectedPhase != null && selectedPhase.countTaches > 0" class="card card-default border-dark">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 text-center mt-1">
+              <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
+            </div>
+            <div class="col-lg-4 text-center mt-1">
+              <input type="text" placeholder="Chercher une date" class="form-control" #dp="bsDatepicker" autocomplete="off"
+                     bsDatepicker [(ngModel)]="viewDate" (ngModelChange)="activeDayIsOpen=true;refresh.next()" name="dp-cal" [bsConfig]="bsConfig">
+            </div>
+            <div class="col-lg-4 text-center mt-1">
+              <div class="btn-group">
+                <div class="btn btn-primary" mwlCalendarPreviousView [view]="view"
+                     [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                  Précédent
+                </div>
+                <div
+                  class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+                  Aujourd'hui
+                </div>
+                <div
+                  class="btn btn-primary" mwlCalendarNextView [view]="view"
+                  [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                  Suivant
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-lg-12">
+              <b class="text-purple">Signification des couleurs :</b>
+              <span class="ml-2 mr-1"><span class="badge mr-1 bg-green">&nbsp;</span><u>La mobilisation est livrée avant la date limite</u></span><b>|</b>
+              <span class="ml-1 mr-1"><span class="badge mr-1 bg-warning">&nbsp;</span><u>Il reste moins que 24H pour livrer la mobilisation</u></span><b>|</b>
+              <span class="ml-1 mr-1"><span class="badge mr-1 bg-primary">&nbsp;</span><u>Il reste encore du temps (+ 24H) pour livrer la mobilisation</u></span><b>|</b>
+              <span class="ml-1 mr-1"><span class="badge mr-1 bg-danger">&nbsp;</span><u>La date limite pour livrer la mobilisation est dépassée, ou la mobilisation est remise en retard</u></span>
+            </div>
+          </div>
+          <hr>
+          <mwl-calendar-month-view
+            [locale]="'fr'"
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            [activeDayIsOpen]="activeDayIsOpen"
+            (eventClicked)="eventClicked($event)"
+            (dayClicked)="dayClicked($event.day)"
+          ></mwl-calendar-month-view>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #addPhaseModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="addPhase" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Ajouter une phase</h4>
+        <button type="button" class="close" aria-label="Close" (click)="addPhaseModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body overflow-auto sc" style="max-height: 600px !important;" *ngIf="newPhase != null">
+        <form class="form-horizontal">
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-2 col-form-label font-weight-bold text-green">Titre</label>
+              <div class="col-md-10">
+                <input class="mb-3 form-control" type="text" name="phase-title" placeholder="Titre" [(ngModel)]="newPhase.titre" />
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-2 col-form-label font-weight-bold text-green">Date de début</label>
+              <div class="col-md-10">
+                <input type="text" placeholder="date de début" class="form-control" #dp="bsDatepicker" autocomplete="off" bsDatepicker [(ngModel)]="newPhase.dateDebut" name="dp-add" [bsConfig]="bsConfig">
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-2 col-form-label font-weight-bold text-green">Description</label>
+              <div class="col-md-10">
+                <div [ngxSummernote]="config2" [(ngModel)]="newPhase.description" [ngModelOptions]="{standalone: true}"></div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-12 col-form-label font-weight-bold text-green">Mobilisations</label>
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-white bg-green">titre de la mobilisation</th>
+                        <th class="text-white bg-green">Membre affecté</th>
+                        <th class="text-white bg-green">Date limite de remise</th>
+                        <th class="text-danger">Supprimer</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let t of newPhase.taches; let i=index">
+                        <td class="font-weight-bold text-green">{{i+1}}</td>
+                        <td>
+                          <input class="form-control" type="text" name="tache-title-{{i}}" placeholder="Titre" [(ngModel)]="t.title" />
+                        </td>
+                        <td>
+                          <ngx-select optionValueField="idU" optionTextField="nom" [allowClear]="true" [items]="problem.membres" [noResultsFound]="'Aucun résultat'"
+                                      [(ngModel)]="t.idMembre" [ngModelOptions]="{standalone: true}" placeholder="Chercher un membre" class="ngx">
+                          </ngx-select>
+                        </td>
+                        <td>
+                          <input type="text" placeholder="date limite de remise" class="form-control" #dp="bsDatepicker" autocomplete="off" bsDatepicker [(ngModel)]="t.dateLimite" name="dp-{{i}}" [bsConfig]="bsConfig">
+                        </td>
+                        <td class="text-center">
+                          <button class="btn btn-circle btn-outline-danger" (click)="deleteTache(t);">
+                            <em class="fa-2x icon-trash"></em>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="mt-3 mb-5">
+                    <button class="btn btn-dark" (click)="addTache()">
+                      <em class="icon-plus mr-1"></em>Ajouter une mobilisation
+                    </button>
+                    <br><br><br><br><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <div class="row">
+          <button class="btn btn-oval btn-outline-green btn-md font-weight-bold" [disabled]="en_cours_r" (click)="addPhase()">Ajouter</button>
+          <div class="justify-content-center mt-2" *ngIf="en_cours_r">
+            <div class="line-scale-pulse-out-rapid">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #updatePhaseModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="updatePhase" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" *ngIf="updatedPhase">
+      <div class="modal-header">
+        <h4 class="modal-title">{{updatedPhase.dateFin ? 'Clôturer la phase' : 'Modifier les informations de la phase'}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="updatePhaseModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body overflow-auto sc" style="max-height: 600px !important;" *ngIf="updatedPhase != null">
+        <form class="form-horizontal">
+          <div *ngIf="update">
+            <fieldset>
+              <div class="form-group row mb">
+                <label class="col-md-2 col-form-label font-weight-bold text-green">Titre</label>
+                <div class="col-md-10">
+                  <input class="mb-3 form-control" type="text" name="phase-title" placeholder="Titre" [(ngModel)]="updatedPhase.titre" />
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group row mb">
+                <label class="col-md-2 col-form-label font-weight-bold text-green">Date de début</label>
+                <div class="col-md-10">
+                  <input type="text" placeholder="date de début" class="form-control" #dp="bsDatepicker" autocomplete="off" bsDatepicker [(ngModel)]="updatedPhase.dateDebut" name="dp-update" [bsConfig]="bsConfig">
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group row mb">
+                <label class="col-md-2 col-form-label font-weight-bold text-green">Description</label>
+                <div class="col-md-10">
+                  <div [ngxSummernote]="config2" [(ngModel)]="updatedPhase.description" [ngModelOptions]="{standalone: true}"></div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div *ngIf="!update">
+            <fieldset>
+              <div class="form-group row mb">
+                <label class="col-md-5 col-form-label font-weight-bold text-green">Date de clôture&nbsp;<u>(Par défaut, c'est la date actuelle)</u></label>
+                <div class="col-md-7">
+                  <input type="text" placeholder="date de clôture" class="form-control" #dp="bsDatepicker" autocomplete="off" bsDatepicker [(ngModel)]="updatedPhase.dateFin" name="dp-update" [bsConfig]="bsConfig">
+                </div>
+              </div>
+              <div class="row m-2">
+                <h5 class="text-danger text-center col-lg-12"><u>Attention,&nbsp;</u>Lorsque vous clôturez la phase vous ne pouvez ni ajouter des mobilisations, ni les modifier.</h5>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <div class="row">
+          <button class="btn btn-oval btn-outline-green btn-md font-weight-bold" [disabled]="en_cours_r" (click)="updatePhase()">{{updatedPhase.dateFin ? 'Clôturer' : 'Modifier'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #saveTache="bs-modal" tabindex="-1" role="dialog" aria-labelledby="saveTache" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{type_save === 0 ? 'Modifier' : 'Ajouter'}}&nbsp;une mobilisation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="saveTache.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body overflow-auto sc" style="max-height: 600px !important;" *ngIf="selectedTache != null && type === 'planification'">
+        <form class="form-horizontal">
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-3 col-form-label font-weight-bold text-green">Titre</label>
+              <div class="col-md-7">
+                <input class="mb-3 form-control" type="text" name="phase-title" placeholder="Titre" [(ngModel)]="selectedTache.title" />
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-3 col-form-label font-weight-bold text-green">Membre affecté</label>
+              <div class="col-md-7">
+                <ngx-select optionValueField="idU" optionTextField="nom" [allowClear]="true" [items]="problem.membres" [noResultsFound]="'Aucun résultat'"
+                            [(ngModel)]="selectedTache.idMembre" [ngModelOptions]="{standalone: true}" placeholder="Chercher un membre" class="ngx">
+                </ngx-select>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="form-group row mb">
+              <label class="col-md-3 col-form-label font-weight-bold text-green">Date limite de remise</label>
+              <div class="col-md-7">
+                <input type="text" placeholder="date limite de remise" class="form-control" #dp="bsDatepicker" autocomplete="off" bsDatepicker
+                       [(ngModel)]="selectedTache.dateLimite" name="dp-basic" [bsConfig]="bsConfig">
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <div class="row">
+          <button class="btn btn-oval btn-outline-green btn-md font-weight-bold" [disabled]="en_cours_r" (click)="type_save === 0 ? updateTache() : addNewTache()">
+            {{type_save === 0 ? 'Modifier' : 'Ajouter'}}
+          </button>
+          <div class="justify-content-center mt-2" *ngIf="en_cours_r">
+            <div class="line-scale-pulse-out-rapid">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #livrable="bs-modal" tabindex="-1" role="dialog" aria-labelledby="addPhase" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Livrable de la mobilisation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="livrable.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body overflow-auto sc" style="max-height: 600px !important;" *ngIf="selectedTache != null">
+        <div *ngIf="!selectedTache.livrable || modifLivrable">
+          <div [ngxSummernote]="config0" [(ngModel)]="strLivrable" [ngModelOptions]="{standalone: true}"></div>
+        </div>
+        <div *ngIf="selectedTache.livrable && !modifLivrable">
+          <form class="form-horizontal">
+            <fieldset *ngIf="selectedTache.idMembre === idUser && !selectedPhase.dateFin">
+              <div class="form-group row mb justify-content-center">
+                <button class="text-center btn btn-md btn-purple" (click)="modifLivrable=true; strLivrable= selectedTache.livrable">Modifier le livrable</button>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group row mb">
+                <label class="col-md-3 col-form-label font-weight-bold text-green">Date de remise</label>
+                <div class="col-md-9">
+                  <span>{{selectedTache.dateRemise | date: 'dd/MM/yyyy - HH:mm'}}</span>
+                  <span *ngIf="RemisEnRetard()" class="ml-2 badge p-1 bg-danger">Livrable remis en retard</span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="form-group row mb justify-content-center">
+                <h4 class="text-green col-md-12">Livrable</h4>
+                <div class="card card-default col-md-10">
+                  <div class="card-body">
+                    <div class="col-md-12" [ngxSummernoteView]="selectedTache.livrable"></div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset *ngIf="selectedTache.modifications && selectedTache.modifications.length > 0">
+              <div class="form-group row mb">
+                <label class="col-md-3 col-form-label font-weight-bold text-green">Historique des dates de modification</label>
+                <div class="col-md-8">
+                  <ul class="list-inline m-0">
+                    <li class="list-inline-item" *ngFor="let m of selectedTache.modifications">
+                      <div class="badge bg-gray p-1 font-weight-bold">{{m | date: 'dd/MM/yyyy - HH:mm'}}</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center" *ngIf="modifLivrable">
+        <div class="row">
+          <button class="btn btn-oval btn-outline-green btn-md font-weight-bold" [disabled]="en_cours_r" (click)="saveLivrable()">
+            {{type_save === 4 ? 'Modifier' : 'Ajouter'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #tacheCal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="addPhase" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-purple-light">
+        <h4 class="modal-title">Livrable de la mobilisation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="tacheCal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body overflow-auto sc" style="max-height: 600px !important;" *ngIf="selectedTache != null">
+        <div *ngIf="selectedTache != null">
+          <div class="row justify-content-center">
+            <div class="m-2 p-2 badge {{getDefSelectedTache()[0]}}">
+              {{getDefSelectedTache()[1]}}
+            </div>
+          </div>
+          <hr>
+          <div class="form-horizontal">
+              <fieldset *ngIf="selectedTache.user">
+                <div class="form-group row mb">
+                  <label class="col-md-4 col-form-label font-weight-bold text-purple">Membre concerné</label>
+                  <div class="col-md-8">
+                    {{(selectedTache.user.nom | uppercase) + " " +selectedTache.user.prenom}}
+                    <em class="fa fa-star text-warning ml-2" [tooltip]="'Vous êtes le membre concerné'" *ngIf="selectedTache.idMembre == idUser"></em>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class="form-group row mb">
+                  <label class="col-md-4 col-form-label font-weight-bold text-purple">Date limite</label>
+                  <div class="col-md-8">
+                    {{selectedTache.dateLimite | date:'dd/MM/yyyy'}}
+                    <span *ngIf="selectedTache.dateRemise" class="ml-2 badge bg-green-light">Cette mobilisation est remise le&nbsp;{{selectedTache.dateRemise | date:'dd/MM/yyyy'}}</span>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset *ngIf="selectedTache.livrable">
+                <div class="form-group row mb">
+                  <label class="col-md-4 col-form-label font-weight-bold text-purple">Livrable</label>
+                  <div class="col-md-8">
+                    <div [ngxSummernoteView]="selectedTache.livrable"></div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset *ngIf="selectedTache.modifications && selectedTache.modifications.length > 0">
+                <div class="form-group row mb">
+                  <label class="col-md-4 col-form-label font-weight-bold text-purple">Historique des dates de modification</label>
+                  <div class="col-md-8">
+                    <ul class="list-inline m-0">
+                      <li class="list-inline-item" *ngFor="let m of selectedTache.modifications">
+                        <div class="badge bg-gray p-1 font-weight-bold">{{m | date: 'dd/MM/yyyy - HH:mm'}}</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,848 @@
+<div class="content-heading">Liste des projets&nbsp;<strong>(public)</strong>
+
+</div>
+<div class="row justify-content-center">
+  <pagination class="pagination" (pageChanged)="pageChanged($event)" [itemsPerPage]="nbrProjetsParPage" [totalItems]="nbrProjets" [(ngModel)]="currentPage" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" (numPages)="numPages"></pagination>
+</div>
+<div>
+  <div class="row" *ngIf="true; else loading">
+    <!--div class="col-xl-4 col-lg-6" *ngFor="let p of projets">
+      <div class="card b">
+        <div class="card-header">
+          <div class="float-right">
+            <div class="badge {{updateBadge(p.pourcentageCompleted).badge_style}}">{{updateBadge(p.pourcentageCompleted).badge_text}}</div>
+          </div>
+          <h4 class="m-0">{{p.titre}}</h4>
+          <small class="text-muted">Ce projet s'étale sur {{p.countPhases}}&nbsp;phases</small>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="Progression des taches terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="{{updateBadge(p.pourcentageCompleted).progress_style}}" value="{{p.pourcentageCompleted}}"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right">
+              <div class="text-bold text-muted">{{p.pourcentageCompleted}}%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bb">
+          <div class="row text-center">
+            <div class="col-4">
+              <p class="text-bold">Membres</p>
+              <div class="h3 m-0">{{p.countMembres}}</div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Budget</p>
+              <div class="sparkline inline mr-2" [sparkline]="sparkOptionsWarning" values="60,40"></div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Taches</p>
+              <div class="h3 m-0">{{p.countTaches}}</div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <strong>Date de début</strong>
+            </td>
+            <td>{{p.dateDebut | date: 'dd/MM/yyyy'}}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Chef du projet</strong>
+            </td>
+            <td>
+              {{p.chef.nom}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="card-footer text-center bt0">
+          <button class="btn btn-secondary btn-oval" type="button" (click)="checkDetails(p.idPrj)">Détails du projet</button>
+        </div>
+      </div>
+    </div-->
+
+
+    <div class="col-xl-4 col-lg-6">
+      <div class="card b">
+        <div class="card-header">
+          <div class="float-right">
+            <div class="badge badge-info p-1">En cours</div>
+          </div>
+          <h4 class="m-0">Mise en place d'un outil de suivi de la conformité du département Etudes & Projets au système de management de la qualité</h4>
+          <small class="text-muted">Ce projet s'étale sur 3 phases</small>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="Progression des taches terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="info" value="45"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right">
+              <div class="text-bold text-muted">45%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bb">
+          <div class="row text-center">
+            <div class="col-4">
+              <p class="text-bold">Membres</p>
+              <div class="h3 m-0">12</div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Budget</p>
+              <div class="sparkline inline mr-2" [sparkline]="sparkOptionsInfo" values="60,40"></div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Taches</p>
+              <div class="h3 m-0">17</div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <strong>Date de début</strong>
+            </td>
+            <td>17/09/2020</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Chef du projet</strong>
+            </td>
+            <td>
+              Mr. MAWHOUB Said
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="card-footer text-center bt0">
+          <button class="btn btn-secondary btn-oval" type="button" (click)="checkDetails('7')">Détails du projet</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6">
+      <div class="card b">
+        <div class="card-header">
+          <div class="float-right">
+            <div class="badge badge-green p-1">Terminé</div>
+          </div>
+          <h4 class="m-0">Mise en place d'un outil d'automatisation du workflow DevOps pour les projets JAVA/JEE</h4>
+          <small class="text-muted">Ce projet s'étale sur 5 phases</small>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="Progression des taches terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="success" value="100"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right">
+              <div class="text-bold text-muted">100%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bb">
+          <div class="row text-center">
+            <div class="col-4">
+              <p class="text-bold">Membres</p>
+              <div class="h3 m-0">12</div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Budget</p>
+              <div class="sparkline inline mr-2" [sparkline]="sparkOptionsSuccess" values="50,40"></div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Taches</p>
+              <div class="h3 m-0">17</div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <strong>Date de début</strong>
+            </td>
+            <td>17/09/2020</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Chef du projet</strong>
+            </td>
+            <td>
+              Mr. MAWHOUB Said
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="card-footer text-center bt0">
+          <button class="btn btn-secondary btn-oval" type="button" (click)="checkDetails('7')">Détails du projet</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6">
+      <div class="card b">
+        <div class="card-header">
+          <div class="float-right">
+            <div class="badge badge-warning p-1">Suspendu</div>
+          </div>
+          <h4 class="m-0">Mise en place d'un outil de suivi de la conformité du département Etudes & Projets au système de management de la qualité</h4>
+          <small class="text-muted">Ce projet s'étale sur 2 phases</small>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="Progression des taches terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="warning" value="15"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right">
+              <div class="text-bold text-muted">15%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bb">
+          <div class="row text-center">
+            <div class="col-4">
+              <p class="text-bold">Membres</p>
+              <div class="h3 m-0">20</div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Budget</p>
+              <div class="sparkline inline mr-2" [sparkline]="sparkOptionsWarning" values="12,04"></div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Taches</p>
+              <div class="h3 m-0">7</div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <strong>Date de début</strong>
+            </td>
+            <td>17/09/2020</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Chef du projet</strong>
+            </td>
+            <td>
+              Mr. MAWHOUB Said
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="card-footer text-center bt0">
+          <button class="btn btn-secondary btn-oval" type="button" (click)="checkDetails('7')">Détails du projet</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6">
+      <div class="card b">
+        <div class="card-header">
+          <div class="float-right">
+            <div class="badge badge-inverse p-1">Pas de progression</div>
+          </div>
+          <h4 class="m-0">Mise en place d'un outil d'automatisation du workflow DevOps pour les applications JAVA/JEE</h4>
+          <small class="text-muted">Ce projet s'étale sur 3 phases</small>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="Progression des taches terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="inverse" value="0"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right">
+              <div class="text-bold text-muted">0%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bb">
+          <div class="row text-center">
+            <div class="col-4">
+              <p class="text-bold">Membres</p>
+              <div class="h3 m-0">12</div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Budget</p>
+              <div class="sparkline inline mr-2" [sparkline]="sparkOptionsSuccess" values="00,100"></div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Taches</p>
+              <div class="h3 m-0">2</div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <strong>Date de début</strong>
+            </td>
+            <td>17/09/2020</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Chef du projet</strong>
+            </td>
+            <td>
+              Mr. MAWHOUB Said
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="card-footer text-center bt0">
+          <button class="btn btn-secondary btn-oval" type="button" (click)="checkDetails('7')">Détails du projet</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6">
+      <div class="card b">
+        <div class="card-header">
+          <div class="float-right">
+            <div class="badge badge-info p-1">En cours</div>
+          </div>
+          <h4 class="m-0">Mise en place d'un outil de suivi de la conformité du département Etudes & Projets au système de management de la qualité</h4>
+          <small class="text-muted">Ce projet s'étale sur 3 phases</small>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="Progression des taches terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="info" value="45"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right">
+              <div class="text-bold text-muted">45%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bb">
+          <div class="row text-center">
+            <div class="col-4">
+              <p class="text-bold">Membres</p>
+              <div class="h3 m-0">12</div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Budget</p>
+              <div class="sparkline inline mr-2" [sparkline]="sparkOptionsInfo" values="60,40"></div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Taches</p>
+              <div class="h3 m-0">17</div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <strong>Date de début</strong>
+            </td>
+            <td>17/09/2020</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Chef du projet</strong>
+            </td>
+            <td>
+              Mr. MAWHOUB Said
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="card-footer text-center bt0">
+          <button class="btn btn-secondary btn-oval" type="button" (click)="checkDetails('7')">Détails du projet</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6">
+      <div class="card b">
+        <div class="card-header">
+          <div class="float-right">
+            <div class="badge badge-green p-1">Terminé</div>
+          </div>
+          <h4 class="m-0">Mise en place d'un outil de suivi de la conformité du département Etudes & Projets au système de management de la qualité</h4>
+          <small class="text-muted">Ce projet s'étale sur 3 phases</small>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="w-100">
+              <div tooltip="Progression des taches terminées par rapport au nombre total">
+                <div class="progress progress-xs m-0">
+                  <progressbar class="progress-xs m-0" type="success" value="100"></progressbar>
+                </div>
+              </div>
+            </div>
+            <div class="wd-xxs text-right">
+              <div class="text-bold text-muted">100%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bb">
+          <div class="row text-center">
+            <div class="col-4">
+              <p class="text-bold">Membres</p>
+              <div class="h3 m-0">12</div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Budget</p>
+              <div class="sparkline inline mr-2" [sparkline]="sparkOptionsWarning" values="10,90"></div>
+            </div>
+            <div class="col-4">
+              <p class="text-bold">Taches</p>
+              <div class="h3 m-0">17</div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <strong>Date de début</strong>
+            </td>
+            <td>17/09/2020</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Chef du projet</strong>
+            </td>
+            <td>
+              Mr. MAWHOUB Said
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="card-footer text-center bt0">
+          <button class="btn btn-secondary btn-oval" type="button" (click)="checkDetails('7')">Détails du projet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #loading>
+    <div class="loader-demo d-flex align-items-center justify-content-center" >
+      <div class="card-body loader-demo d-flex align-items-center justify-content-center">
+        <div class="ball-rotate">
+          <div></div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <h5 class="text-green">Chargement des données en cours ...</h5>
+    </div>
+  </ng-template>
+
+  <!--div class="col-xl-4 col-lg-6">
+    <div class="card b">
+      <div class="card-header">
+        <div class="float-right">
+          <div class="badge badge-info">started</div>
+        </div>
+        <h4 class="m-0">Project #2</h4>
+        <small class="text-muted">Sed amet lectus id.</small>
+      </div>
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="w-100">
+            <div tooltip="Health">
+              <div class="progress progress-xs m-0">
+                <progressbar class="progress-xs m-0" type="success" value="80"></progressbar>
+              </div>
+            </div>
+          </div>
+          <div class="wd-xxs text-right">
+            <div class="text-bold text-muted">80%</div>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <tbody>
+        <tr>
+          <td>
+            <strong>Start date</strong>
+          </td>
+          <td>02/01/2016</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Members</strong>
+          </td>
+          <td>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/02.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/04.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/05.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/06.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <strong>+6</strong>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Leader</strong>
+          </td>
+          <td>
+            <a tooltip="Team leader">
+              <img class="rounded-circle thumb24" src="assets/img/user/03.jpg" alt="project member" />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Metrics</strong>
+          </td>
+          <td>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsInfo" values="20,80"></div>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsSuccess" values="60,40"></div>
+            <div class="sparkline inline" [sparkline]="sparkOptionsWarning" values="90,10"></div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="card-footer text-center bt0">
+        <button class="btn btn-secondary" type="button">Manage project</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-6">
+    <div class="card b">
+      <div class="card-header">
+        <div class="float-right">
+          <div class="badge badge-info">started</div>
+        </div>
+        <h4 class="m-0">Project #3</h4>
+        <small class="text-muted">Sed amet lectus id.</small>
+      </div>
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="w-100">
+            <div tooltip="Health">
+              <div class="progress progress-xs m-0">
+                <progressbar class="progress-xs m-0" type="info" value="50"></progressbar>
+              </div>
+            </div>
+          </div>
+          <div class="wd-xxs text-right">
+            <div class="text-bold text-muted">50%</div>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <tbody>
+        <tr>
+          <td>
+            <strong>Start date</strong>
+          </td>
+          <td>03/01/2016</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Members</strong>
+          </td>
+          <td>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/02.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/04.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/05.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/06.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <strong>+7</strong>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Leader</strong>
+          </td>
+          <td>
+            <a tooltip="Team leader">
+              <img class="rounded-circle thumb24" src="assets/img/user/03.jpg" alt="project member" />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Metrics</strong>
+          </td>
+          <td>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsInfo" values="20,80"></div>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsSuccess" values="60,40"></div>
+            <div class="sparkline inline" [sparkline]="sparkOptionsWarning" values="90,10"></div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="card-footer text-center bt0">
+        <button class="btn btn-secondary" type="button">Manage project</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-6">
+    <div class="card b">
+      <div class="card-header">
+        <div class="float-right">
+          <div class="badge badge-warning">paused</div>
+        </div>
+        <h4 class="m-0">Project #4</h4>
+        <small class="text-muted">Sed amet lectus id.</small>
+      </div>
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="w-100">
+            <div tooltip="Health">
+              <div class="progress progress-xs m-0">
+                <progressbar class="progress-xs m-0" type="warning" value="22"></progressbar>
+              </div>
+            </div>
+          </div>
+          <div class="wd-xxs text-right">
+            <div class="text-bold text-muted">22%</div>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <tbody>
+        <tr>
+          <td>
+            <strong>Start date</strong>
+          </td>
+          <td>04/01/2016</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Members</strong>
+          </td>
+          <td>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/02.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/04.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/05.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/06.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <strong>+8</strong>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Leader</strong>
+          </td>
+          <td>
+            <a tooltip="Team leader">
+              <img class="rounded-circle thumb24" src="assets/img/user/03.jpg" alt="project member" />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Metrics</strong>
+          </td>
+          <td>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsInfo" values="20,80"></div>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsSuccess" values="60,40"></div>
+            <div class="sparkline inline" [sparkline]="sparkOptionsWarning" values="90,10"></div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="card-footer text-center bt0">
+        <button class="btn btn-secondary" type="button">Manage project</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-6">
+    <div class="card b">
+      <div class="card-header">
+        <div class="float-right">
+          <div class="badge bg-gray">pending</div>
+        </div>
+        <h4 class="m-0">Project #5</h4>
+        <small class="text-muted">Sed amet lectus id.</small>
+      </div>
+      <div class="card-body">
+        <p class="m-0 text-center">This project does not register progress.</p>
+      </div>
+      <table class="table">
+        <tbody>
+        <tr>
+          <td>
+            <strong>Start date</strong>
+          </td>
+          <td>05/01/2016</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Members</strong>
+          </td>
+          <td>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/02.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/04.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/05.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/06.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <strong>+9</strong>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Leader</strong>
+          </td>
+          <td>
+            <a tooltip="Team leader">
+              <img class="rounded-circle thumb24" src="assets/img/user/03.jpg" alt="project member" />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Metrics</strong>
+          </td>
+          <td>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsInfo" values="20,80"></div>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsSuccess" values="60,40"></div>
+            <div class="sparkline inline" [sparkline]="sparkOptionsWarning" values="90,10"></div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="card-footer text-center bt0">
+        <button class="btn btn-secondary" type="button">Manage project</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-6">
+    <div class="card b">
+      <div class="card-header">
+        <div class="float-right">
+          <div class="badge badge-success">completed</div>
+        </div>
+        <h4 class="m-0">Project #6</h4>
+        <small class="text-muted">Sed amet lectus id.</small>
+      </div>
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="w-100">
+            <div tooltip="Health">
+              <div class="progress progress-xs m-0">
+                <progressbar class="progress-xs m-0" type="success" value="100"></progressbar>
+              </div>
+            </div>
+          </div>
+          <div class="wd-xxs text-right">
+            <div class="text-bold text-muted">100%</div>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <tbody>
+        <tr>
+          <td>
+            <strong>Start date</strong>
+          </td>
+          <td>06/01/2016</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Members</strong>
+          </td>
+          <td>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/02.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/04.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/05.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <img class="rounded-circle thumb24" src="assets/img/user/06.jpg" alt="project member" />
+            </a>
+            <a class="inline" href="#">
+              <strong>+10</strong>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Leader</strong>
+          </td>
+          <td>
+            <a tooltip="Team leader">
+              <img class="rounded-circle thumb24" src="assets/img/user/03.jpg" alt="project member" />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Metrics</strong>
+          </td>
+          <td>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsInfo" values="20,80"></div>
+            <div class="sparkline inline mr-2" [sparkline]="sparkOptionsSuccess" values="60,40"></div>
+            <div class="sparkline inline" [sparkline]="sparkOptionsWarning" values="90,10"></div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="card-footer text-center bt0">
+        <button class="btn btn-secondary" type="button">Manage project</button>
+      </div>
+    </div>
+  </div-->
+</div>
